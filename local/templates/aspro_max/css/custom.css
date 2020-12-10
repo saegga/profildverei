@@ -1,0 +1,173 @@
+/*NOTE: This file is intended for programmers. Aspro technical support is not advised to work with him.*/
+
+/* Examples (uncomment to use):*/
+
+/* Expand site width */
+/* body .wrapper { max-width: 1400px !important;  } */
+
+/* Set site background image */
+/* body {  background: url(image_source) top no-repeat; }
+
+/* Hide compare button */
+/* a.compare_item { display: none !important;  }*/
+
+/*detail custom element_6*/
+.element_6 .btn{
+    border-radius: 4px;
+}
+.element_6.catalog_detail .sku_props .bx_item_section_name{
+    font-size: 12px;
+    font-weight: 500;
+    color: #2E322C;
+}
+.element_6.catalog_detail .sku_props .bx_item_detail_size ul li{
+    background-color: #F1F3F4;
+    border-radius: 4px;
+    min-width: 40px;
+    min-height: 35px;
+}
+.element_6.catalog_detail .sku_props .bx_item_detail_size ul li.active{
+    background-color: #4cb213;
+}
+.element_6.catalog_detail .sku_props .bx_item_detail_size ul li.active:hover span{
+    color: #fff;
+}
+.element_6.catalog_detail .sku_props .bx_item_detail_size ul li:hover span
+{
+    color: #2E322C;
+}
+.element_6 .sku_props .bx_item_detail_size ul li span{
+    font-size: 10px;
+    padding: 9px 0;
+    font-weight: 500;
+}
+
+.bx_catalog_item_scu ul li.custom_info{
+    position: relative;
+    background: #F1F3F4;
+    border: 1px solid #DDDFDB;
+    border-radius: 4px;
+    min-width: 104px;
+}
+.bx_catalog_item_scu ul li.custom_info span{
+    color: #2E322C;
+    font-weight: 500;
+    float: left;
+}
+.bx_catalog_item_scu ul li.custom_info i{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: url(../images/custom_size.svg);
+    float: right;
+    margin-top: 11px;
+    margin-left: 5px;
+}
+.tooltip_custom_size{
+    display: none;
+    position: absolute;
+    min-height: 24px;
+    background: #2E322C;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 500;
+    text-align: center;
+    padding: 0 10px;
+    min-width: 150px;
+    border-radius: 5px;
+    top: -30px;
+    z-index: 500;
+}
+.tooltip_custom_size:after{
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    border: 4px solid transparent;
+    border-top: 4px solid #2E322C;
+}
+
+/*drop down select*/
+
+.element_6 .bx_section .common_select-link,
+.element_6.catalog_detail .common_select .common_select-link
+{
+    height: 35px;
+    line-height: 35px;
+    padding-left: 14px;
+}
+.element_6.catalog_detail .common_select .icon_color,
+.element_6 .mCSB_scrollTools{
+    display: none !important;
+}
+
+.element_6 .bx_filter .bx_filter_select_block, 
+.element_6 .common_select .common_select-link{
+    background-color: #f1f3f4;
+    border-radius: 4px;
+    border: 1px solid #DDDFDB;
+}
+.element_6 .bx_section .common_select-link .ik_select_link_text, 
+.element_6.catalog_detail .common_select .common_select-link .ik_select_link_text{
+    color: #2E322C;
+    line-height: 35px;
+    font-size: 10px;
+    font-weight: 500;
+}
+.element_6_listdropdown .ik_select_list{
+    margin-top: -3px;
+}
+.element_6_listdropdown .ik_select_list .ik_select_list_inner ul li{
+    border-radius: 2px;
+    font-size: 10px;
+    font-weight: 500;
+    min-height: 50px;
+    border: 1px solid #DDDFDB;
+    border-bottom: 0;
+}
+.element_6_listdropdown .ik_select_list .ik_select_list_inner ul li:last-child{
+    border-bottom: 1px solid #DDDFDB;
+}
+.element_6_listdropdown .ik_select_list .ik_select_option .ik_select_option_label{
+    padding-left: 40px;
+    font-size: 10px;
+    color: #2E322C;
+}
+.element_6_listdropdown .ik_select_list .ik_select_list_inner ul li
+{
+    padding: 13px 9px 9px;
+}
+.element_6 .common_select .icon_color, .ik_select_list .icon_color{
+    width: 38px;
+    height: 38px;
+    border: 0;
+}
+.element_6_listdropdown .ik_select_list .ik_select_option.img .ik_select_option_label .icon_color{
+    top: 6px;
+}
+.element_6_listdropdown .ik_select_list .ik_select_list_inner ul li.ik_select_active{
+    position: relative;
+    background-color: #fff;
+    border-radius: 2px;
+    border: 1px solid #4EB615;
+    color: #2E322C;
+}
+.element_6_listdropdown .ik_select_list .ik_select_option.img .ik_select_option_label{
+    color: #2E322C;
+}
+.element_6_listdropdown .ik_select_list .ik_select_list_inner ul li.ik_select_active:after{
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background-color: #4EB615;
+}
+.element_6.catalog_detail .common_select .common_select-link .trigger{
+    height: 35px;
+    line-height: 35px;
+}
+.element_6_listdropdown.ik_select_dropdown.common_select-dd{
+    box-shadow: none;
+}
