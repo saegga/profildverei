@@ -9540,14 +9540,14 @@ var recalcMinPrice = function(price, discountPrice, economyPrice){
 			console.log(priceMinValues[i])
 			if(priceMinValues[i].classList.contains("discount")){
 				// discount
-				console.log(discountPrice)
+				
 				if(discountPrice){
 					priceMinValues[i].setAttribute("data-value", discountPrice);
 					var priceDiscountVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
 					priceDiscountVal.innerHTML = discountPrice;
 				}
 			}else{
-				console.log(discountPrice)
+				
 				// min price val
 				priceMinValues[i].setAttribute("data-value", price);
 				var priceVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
@@ -9562,14 +9562,31 @@ var recalcMinPrice = function(price, discountPrice, economyPrice){
 				saleVal.innerHTML = economyPrice;
 			}
 		}
-		// console.log(priceMinValues)
+	}else{
+		var priceMinValues = BX.findChild(blockPrice, {className: "price"}, true, true)
+		
+		for(var i = 0; i < priceMinValues.length; i++){
+			if(priceMinValues[i].classList.contains("discount")){
+				if(discountPrice){
+					priceMinValues[i].setAttribute("data-value", discountPrice);
+					var priceDiscountVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
+					priceDiscountVal.innerHTML = discountPrice;
+				}
+			}else{
+				priceMinValues[i].setAttribute("data-value", price);
+				var priceVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
+				priceVal.innerHTML = price;
+			}
+		}
+		if(economyPrice){
+			if(BX.findChild(blockPrice, {className: "sale_block"}, true)){
+				var saleBlock = BX.findChild(blockPrice, {className: "sale_block"}, true);
+				var saleVal = BX.findChild(saleBlock, {className: "price_value"}, true);
+				saleVal.innerHTML = economyPrice;
+			}
+		}
 	}
 
-	// if(BX.findChild(blockPrice, {className: "price_group"}, true)){
-	// 	console.log("pr")
-	// }else if(BX.findChild(blockPrice, {className: "price_matrix_wrapper"}, true)){
-	// 	console.log("group")
-	// }
 };
 
 function declOfNum(number, titles)
