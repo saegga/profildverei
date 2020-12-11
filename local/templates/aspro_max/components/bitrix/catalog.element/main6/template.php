@@ -1,8 +1,7 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 <?$this->setFrameMode(true);?>
-<?ob_start();?>
 <?use \Bitrix\Main\Localization\Loc;?>
-
+<?ob_start();?>
 <div class="basket_props_block" id="bx_basket_div_<?=$arResult["ID"];?>" style="display: none;">
 	<?if (!empty($arResult['PRODUCT_PROPERTIES_FILL'])){
 		foreach ($arResult['PRODUCT_PROPERTIES_FILL'] as $propID => $propInfo){?>
@@ -106,10 +105,10 @@ if(!empty($arResult['SKU_PROPS'])){
         $arResult['SKU_PROPS']['SIZES']['VALUES']['custom_info']['NAME'] = "не стандарт";
         $arResult['SKU_PROPS']['SIZES']['VALUES']['custom_info']['PICT'] = false;
         $arResult['SKU_PROPS']['SIZES']['VALUES']['custom_info']['SORT'] = "9000000000";
-	}
-	
-	// $arSkuTemplate=CMax::GetSKUPropsArray($arResult['SKU_PROPS'], $arResult["SKU_IBLOCK_ID"], "list", $arParams["OFFER_HIDE_NAME_PROPS"], "N", array(), $arParams['OFFER_SHOW_PREVIEW_PICTURE_PROPS']);
-	$arSkuTemplate = SM\CustomMax::CustomGetSKUPropsArray($arResult['SKU_PROPS'], $arResult["SKU_IBLOCK_ID"], "list", $arParams["OFFER_HIDE_NAME_PROPS"], "N", array(), $arParams['OFFER_SHOW_PREVIEW_PICTURE_PROPS']);
+    }
+    $arSkuTemplate = \SM\CustomMax::CustomGetSKUPropsArray($arResult['SKU_PROPS'], $arResult["SKU_IBLOCK_ID"], "list", $arParams["OFFER_HIDE_NAME_PROPS"], "N", array(), $arParams['OFFER_SHOW_PREVIEW_PICTURE_PROPS']);
+//    $arSkuTemplate=CMax::GetSKUPropsArray($arResult['SKU_PROPS'], $arResult["SKU_IBLOCK_ID"], "list", $arParams["OFFER_HIDE_NAME_PROPS"], "N", array(), $arParams['OFFER_SHOW_PREVIEW_PICTURE_PROPS']);
+
 }
 	//$arSkuTemplate=CMax::GetSKUPropsArray($arResult['SKU_PROPS'], $arResult["SKU_IBLOCK_ID"], "list", $arParams["OFFER_HIDE_NAME_PROPS"]);
 
@@ -156,7 +155,7 @@ else
 		$strMeasure=$arMeasure["SYMBOL_RUS"];
 	}
     $arAddToBasketData = \SM\CustomMax::CustomGetAddToBasketArray($arResult, $totalCount, $arParams["DEFAULT_COUNT"], $arParams["BASKET_URL"], true, $arItemIDs["ALL_ITEM_IDS"], 'btn-lg', $arParams);
-//	$arAddToBasketData = CMax::GetAddToBasketArray($arResult, $totalCount, $arParams["DEFAULT_COUNT"], $arParams["BASKET_URL"], true, $arItemIDs["ALL_ITEM_IDS"], 'btn-lg', $arParams);
+	//$arAddToBasketData = CMax::GetAddToBasketArray($arResult, $totalCount, $arParams["DEFAULT_COUNT"], $arParams["BASKET_URL"], true, $arItemIDs["ALL_ITEM_IDS"], 'btn-lg', $arParams);
 }
 $arOfferProps = implode(';', $arParams['OFFERS_CART_PROPERTIES']);
 
@@ -239,8 +238,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']);?>
 						$arSKU["IBLOCK_ID"]=$arResult["IBLOCK_ID"];
 						$arSKU["IS_OFFER"]="Y";
 						$arskuAddToBasketData =$arSKU['ADD_TO_BASKET_DATA'];
-						$arskuAddToBasketData["HTML"] =
-                            str_replace('data-item', 'data-props="'.$arOfferProps.'" data-item', $arskuAddToBasketData["HTML"]);
+						$arskuAddToBasketData["HTML"] = str_replace('data-item', 'data-props="'.$arOfferProps.'" data-item', $arskuAddToBasketData["HTML"]);
 						?>
 						<div class="table-view__item item bordered box-shadow main_item_wrapper <?=($useStores ? "table-view__item--has-stores" : "");?>">
 							<div class="table-view__item-wrapper item_info catalog-adaptive flexbox flexbox--row">
@@ -618,7 +616,6 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']);?>
 			</div>
 
 			<div class="product-main">
-
 				<div class="product-info-headnote clearfix">
 					<div class="flexbox flexbox--row align-items-center justify-content-between flex-wrap">
 						<?//delay|compare?>
@@ -719,9 +716,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']);?>
 
 				<?//buttons,props,sales?>
 				<div class="flexbox flexbox--row flex-wrap align-items-normal">
-					<?//discount,buy|order|subscribe?>
                     <div class="product-props flex-50">
-                        <?$frame = $this->createFrame()->begin('');?>
                         <?if($arResult["OFFERS"] && $showCustomOffer):?>
                             <div class="buy_block offer-props-wrapper">
                                 <div class="sku_props">
@@ -734,18 +729,12 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']);?>
                                             }?>
                                         </div>
                                     <?}?>
-                                    <?$arItemJSParams=CMax::GetSKUJSParams($arResult, $arParams, $arResult, "Y");?>
-
-                                    <script type="text/javascript">
-                                        var <? echo $arItemIDs["strObName"]; ?> = new JCCatalogElement(<? echo CUtil::PhpToJSObject($arItemJSParams, false, true); ?>);
-                                    </script>
-
                                 </div>
                             </div>
                         <?endif;?>
-                        <?$frame->end();?>
                         #SET_CONSTRUCTOR#
                     </div>
+					<?//discount,buy|order|subscribe?>
 					<div class="product-action flex-50">
 						<div class="info_item">
 							<div class="middle-info-wrapper main_item_wrapper">
@@ -784,7 +773,6 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']);?>
 										<div class="prices_block">
 											<?//prices?>
 											<div class="cost prices detail">
-											<div class="test_price">111</div>
 												<?if($arResult["OFFERS"]):?>
 													<?=\Aspro\Functions\CAsproMaxItem::showItemPricesDefault($arParams);?>
 													<div class="js_price_wrapper">
@@ -867,25 +855,10 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']);?>
 
 										<?//offers tree props?>
 										<?if($arResult["OFFERS"] && $showCustomOffer):?>
-											<div class="buy_block offer-props-wrapper">
-												<div class="sku_props">
-													<?if (!empty($arResult['OFFERS_PROP'])){?>
-														<div class="bx_catalog_item_scu wrapper_sku" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['PROP_DIV']; ?>">
-															<?foreach ($arSkuTemplate as $code => $strTemplate){
-																if (!isset($arResult['OFFERS_PROP'][$code]))
-																	continue;
-																echo str_replace('#ITEM#_prop_', $arItemIDs["ALL_ITEM_IDS"]['PROP'], $strTemplate);
-															}?>
-														</div>
-													<?}?>
-													<?$arItemJSParams=CMax::GetSKUJSParams($arResult, $arParams, $arResult, "Y");?>
-
-													<script type="text/javascript">
-														var <? echo $arItemIDs["strObName"]; ?> = new JCCatalogElement(<? echo CUtil::PhpToJSObject($arItemJSParams, false, true); ?>);
-													</script>
-
-												</div>
-											</div>
+                                            <?$arItemJSParams=CMax::GetSKUJSParams($arResult, $arParams, $arResult, "Y");?>
+                                            <script type="text/javascript">
+                                                var <? echo $arItemIDs["strObName"]; ?> = new JCCatalogElement(<? echo CUtil::PhpToJSObject($arItemJSParams, false, true); ?>);
+                                            </script>
 										<?endif;?>
 										<?if($arResult["SIZE_PATH"]):?>
 											<div class="table_sizes muted777 font_xs">

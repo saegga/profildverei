@@ -208,6 +208,7 @@
 		_makeOptionActive: function (index, shouldSync) {
 			var $option = $(this.el.options[index]),
 				text='';
+
 			if($option.data('img_src')){
 				text+='<span class="icon_color" style="background: url('+$option.data('img_src')+')"></span>';
 				this.$link.addClass('img');

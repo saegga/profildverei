@@ -577,7 +577,7 @@ BX.Catalog.SetConstructor = (function()
 			this.setOldPriceCont.innerHTML = '';
 			this.setDiffPriceCont.innerHTML = '';
 		}
-		document.getElementsByClassName("test_price")[0].innerText = sumPrice;
+		// document.getElementsByClassName("test_price")[0].innerText = sumPrice;
 	};
 
 	SetConstructor.prototype.addToBasket = function()

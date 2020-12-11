@@ -1,7 +1,7 @@
 <?
-$MESS["CATALOG_SET_BUY"] = "Купить набор";
+$MESS["CATALOG_SET_BUY"] = "набор";
 $MESS["CATALOG_SET_DISCOUNT_DIFF"] = "(экономия #PRICE#)";
-$MESS["CATALOG_SET_BUY_SET"] = "Купить набор";
+$MESS["CATALOG_SET_BUY_SET"] = "Набор";
 $MESS["CATALOG_SET_CONSTRUCT"] = "Составить свой набор";
 $MESS["CATALOG_SET_POPUP_LOADER"] = "Загрузка...";
 $MESS["CATALOG_SET_POPUP_TITLE_BAR"] = "Собери собственный набор";

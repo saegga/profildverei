@@ -20,7 +20,7 @@ $templateData = array(
 );
 $curJsId = $this->randString();
 ?>
-<div class="ordered-block">
+<div class="ordered-block element_6_set">
 	<div class="ordered-block__title font_lg"><?=($arParams["TITLE"] ? $arParams["TITLE"] : GetMessage("CATALOG_SET_BUY_SET"))?></div>
 	<div id="bx-set-const-<?=$curJsId?>" class="bx-set-constructor rounded3">
 		<div class="row">

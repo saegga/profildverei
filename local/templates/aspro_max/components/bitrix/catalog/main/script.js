@@ -59,6 +59,7 @@ function setNewHeader(obOffer){
 		}
 
 		if(typeof obOffer !== 'undefined'){
+
 			if(!obOffer.SHOW_POPUP_PRICE &&
 			 (('PRICES_COUNT' in obOffer && obOffer.PRICES_COUNT > 1) ||
 			  (('PRICES' in obOffer && Object.keys(obOffer.PRICES).length > 1) || ('ITEM_PRICES' in obOffer && Object.keys(obOffer.ITEM_PRICES).length > 1)))){

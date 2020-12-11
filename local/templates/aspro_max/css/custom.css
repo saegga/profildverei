@@ -171,3 +171,14 @@
 .element_6_listdropdown.ik_select_dropdown.common_select-dd{
     box-shadow: none;
 }
+
+/*constructor set*/
+.element_6_set{
+    margin: 19px 0 0 0;
+}
+.element_6_set .ordered-block__title{
+    font-size: 12px;
+    font-weight: 500;
+    color: #2E322C;
+    padding-bottom: 5px;
+}

@@ -4514,6 +4514,7 @@ if(!funcDefined('setPriceItem')){
 
 if(!funcDefined('getCurrentPrice')){
 	var getCurrentPrice = function getCurrentPrice(price, currency, print_price){
+
 		var val = '';
 		var format_value = BX.Currency.currencyFormat(price, currency);
 		if(print_price.indexOf(format_value) >= 0)

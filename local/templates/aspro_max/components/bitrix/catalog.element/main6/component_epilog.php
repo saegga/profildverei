@@ -1,4 +1,4 @@
-<<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 	__IncludeLang($_SERVER["DOCUMENT_ROOT"].$templateFolder."/lang/".LANGUAGE_ID."/template.php");
 
 use Bitrix\Main\Loader,
@@ -17,77 +17,71 @@ if($arTheme['USE_DETAIL_TABS']['VALUE'] != 'Y')
 ?>
 <?
 foreach($arBlockOrder as $code){
-	if($code == 'nabor'){
-		if($templateData['OFFERS_INFO']['OFFERS']){
-			if($templateData['OFFERS_INFO']['OFFER_GROUP']){
-				foreach($templateData['OFFERS_INFO']['OFFERS'] as $arOffer){
-					if(!$arOffer['OFFER_GROUP']) {continue;}
-					ob_start();
-					?>
-					<span id="<?=$templateData['ID_OFFER_GROUP'].$arOffer['ID']?>" style="display: none;">
+    if($code == 'nabor'){
+        if($templateData['OFFERS_INFO']['OFFERS']){
+            if($templateData['OFFERS_INFO']['OFFER_GROUP']){
+                foreach($templateData['OFFERS_INFO']['OFFERS'] as $arOffer){
+                    if(!$arOffer['OFFER_GROUP']) {continue;}
+                    ob_start();
+                    ?>
+                    <span id="<?=$templateData['ID_OFFER_GROUP'].$arOffer['ID']?>" style="display: none;">
 						<?
-						$APPLICATION->IncludeComponent("bitrix:catalog.set.constructor", "main6",
-							array(
-								"IBLOCK_ID" => $templateData['OFFERS_INFO']["OFFERS_IBLOCK"],
-								"ELEMENT_ID" => $arOffer['ID'],
-								"PRICE_CODE" => $arParams["PRICE_CODE"],
-								"BASKET_URL" => $arParams["BASKET_URL"],
-								"OFFERS_CART_PROPERTIES" => $arParams["OFFERS_CART_PROPERTIES"],
-								"CACHE_TYPE" => $arParams["CACHE_TYPE"],
-								"CACHE_TIME" => $arParams["CACHE_TIME"],
-								"CACHE_GROUPS" => $arParams["CACHE_GROUPS"],
-								"SHOW_OLD_PRICE" => $arParams["SHOW_OLD_PRICE"],
-								"BUNDLE_ITEMS_COUNT" => $arParams["BUNDLE_ITEMS_COUNT"],
-								"SHOW_MEASURE" => $arParams["SHOW_MEASURE"],
-								"SHOW_DISCOUNT_PERCENT" => $arParams["SHOW_DISCOUNT_PERCENT"],
-								"TITLE" => $arParams["T_NABOR"],
-								"CONVERT_CURRENCY" => $arParams['CONVERT_CURRENCY'],
-								"CURRENCY_ID" => $arParams["CURRENCY_ID"]
-							), $component, array("HIDE_ICONS" => "Y")
-						);
-						?>
+                        $APPLICATION->IncludeComponent("bitrix:catalog.set.constructor", "main6",
+                            array(
+                                "IBLOCK_ID" => $templateData['OFFERS_INFO']["OFFERS_IBLOCK"],
+                                "ELEMENT_ID" => $arOffer['ID'],
+                                "PRICE_CODE" => $arParams["PRICE_CODE"],
+                                "BASKET_URL" => $arParams["BASKET_URL"],
+                                "OFFERS_CART_PROPERTIES" => $arParams["OFFERS_CART_PROPERTIES"],
+                                "CACHE_TYPE" => $arParams["CACHE_TYPE"],
+                                "CACHE_TIME" => $arParams["CACHE_TIME"],
+                                "CACHE_GROUPS" => $arParams["CACHE_GROUPS"],
+                                "SHOW_OLD_PRICE" => $arParams["SHOW_OLD_PRICE"],
+                                "BUNDLE_ITEMS_COUNT" => $arParams["BUNDLE_ITEMS_COUNT"],
+                                "SHOW_MEASURE" => $arParams["SHOW_MEASURE"],
+                                "SHOW_DISCOUNT_PERCENT" => $arParams["SHOW_DISCOUNT_PERCENT"],
+                                "TITLE" => $arParams["T_NABOR"],
+                                "CONVERT_CURRENCY" => $arParams['CONVERT_CURRENCY'],
+                                "CURRENCY_ID" => $arParams["CURRENCY_ID"]
+                            ), $component, array("HIDE_ICONS" => "Y")
+                        );
+                        ?>
 					</span>
-					<?$APPLICATION->AddViewContent('some_content1', ob_get_clean());?>
-				<?}
-			}
-		}else{
-			ob_start();
-			$APPLICATION->IncludeComponent(
-				"bitrix:catalog.set.constructor", 
-				"main6",
-				array(
-					"IBLOCK_ID" => $arParams["IBLOCK_ID"],
-					"ELEMENT_ID" => $arResult["ID"],
-					"PRICE_CODE" => $arParams["PRICE_CODE"],
-					"BASKET_URL" => $arParams["BASKET_URL"],
-					"CACHE_TYPE" => $arParams["CACHE_TYPE"],
-					"CACHE_TIME" => $arParams["CACHE_TIME"],
-					"CACHE_GROUPS" => $arParams["CACHE_GROUPS"],
-					"SHOW_OLD_PRICE" => $arParams["SHOW_OLD_PRICE"],
-					"BUNDLE_ITEMS_COUNT" => $arParams["BUNDLE_ITEMS_COUNT"],
-					"SHOW_MEASURE" => $arParams["SHOW_MEASURE"],
-					"SHOW_DISCOUNT_PERCENT" => $arParams["SHOW_DISCOUNT_PERCENT"],
-					"TITLE" => $arParams["T_NABOR"],
-					"CONVERT_CURRENCY" => $arParams['CONVERT_CURRENCY'],
-					"CURRENCY_ID" => $arParams["CURRENCY_ID"]
-				), $component, array("HIDE_ICONS" => "Y")
-			);
-			$APPLICATION->AddViewContent('some_content2', ob_get_clean());
-		}
-	}
+                    <?$APPLICATION->AddViewContent('some_content1', ob_get_clean());?>
+                <?}
+            }
+        }else{
+            ob_start();
+            $APPLICATION->IncludeComponent(
+                "bitrix:catalog.set.constructor",
+                "main6",
+                array(
+                    "IBLOCK_ID" => $arParams["IBLOCK_ID"],
+                    "ELEMENT_ID" => $arResult["ID"],
+                    "PRICE_CODE" => $arParams["PRICE_CODE"],
+                    "BASKET_URL" => $arParams["BASKET_URL"],
+                    "CACHE_TYPE" => $arParams["CACHE_TYPE"],
+                    "CACHE_TIME" => $arParams["CACHE_TIME"],
+                    "CACHE_GROUPS" => $arParams["CACHE_GROUPS"],
+                    "SHOW_OLD_PRICE" => $arParams["SHOW_OLD_PRICE"],
+                    "BUNDLE_ITEMS_COUNT" => $arParams["BUNDLE_ITEMS_COUNT"],
+                    "SHOW_MEASURE" => $arParams["SHOW_MEASURE"],
+                    "SHOW_DISCOUNT_PERCENT" => $arParams["SHOW_DISCOUNT_PERCENT"],
+                    "TITLE" => $arParams["T_NABOR"],
+                    "CONVERT_CURRENCY" => $arParams['CONVERT_CURRENCY'],
+                    "CURRENCY_ID" => $arParams["CURRENCY_ID"]
+                ), $component, array("HIDE_ICONS" => "Y")
+            );
+            $APPLICATION->AddViewContent('some_content2', ob_get_clean());
+        }
+    }
 }
 $a = $APPLICATION->GetViewContent('some_content1') != '' ? $APPLICATION->GetViewContent('some_content1')  : $APPLICATION->GetViewContent('some_content2');
-var_dump($APPLICATION->GetViewContent('some_content1'));
-var_dump($APPLICATION->GetViewContent('some_content2'));
 ?>
-
 <?
-
 $component->arResult['HTML'] = str_replace("#SET_CONSTRUCTOR#", $a , $component->arResult['HTML']);
 echo $component->arResult['HTML'];
-
 ?>
-
 <?if($arResult["ID"]):?>
 	<?//tizers?>
 	<?if($templateData['LINK_TIZERS'] && $arParams['IBLOCK_TIZERS_ID']):?>
@@ -317,7 +311,7 @@ echo $component->arResult['HTML'];
 							<?foreach($templateData['OFFERS_INFO']['OFFERS'] as $arOffer):?>
 								<?if(!$arOffer['OFFER_GROUP']) continue;?>
 								<span id="<?=$templateData['ID_OFFER_GROUP'].$arOffer['ID']?>" style="display: none;">
-									<?$APPLICATION->IncludeComponent("bitrix:catalog.set.constructor", "main6",
+									<?/*$APPLICATION->IncludeComponent("bitrix:catalog.set.constructor", "main",
 										array(
 											"IBLOCK_ID" => $templateData['OFFERS_INFO']["OFFERS_IBLOCK"],
 											"ELEMENT_ID" => $arOffer['ID'],
@@ -335,13 +329,12 @@ echo $component->arResult['HTML'];
 											"CONVERT_CURRENCY" => $arParams['CONVERT_CURRENCY'],
 											"CURRENCY_ID" => $arParams["CURRENCY_ID"]
 										), $component, array("HIDE_ICONS" => "Y")
-									);?>
+									);*/?>
 								</span>
 							<?endforeach;?>
 						<?endif;?>
 					<?else:?>
-						<?
-						$APPLICATION->IncludeComponent("bitrix:catalog.set.constructor", "main6",
+						<?/*$APPLICATION->IncludeComponent("bitrix:catalog.set.constructor", "main",
 							array(
 								"IBLOCK_ID" => $arParams["IBLOCK_ID"],
 								"ELEMENT_ID" => $arResult["ID"],
@@ -358,7 +351,7 @@ echo $component->arResult['HTML'];
 								"CONVERT_CURRENCY" => $arParams['CONVERT_CURRENCY'],
 								"CURRENCY_ID" => $arParams["CURRENCY_ID"]
 							), $component, array("HIDE_ICONS" => "Y")
-						);?>
+						);*/?>
 					<?endif;?>
 				<?//tabs?>
 				<?elseif($code == 'tabs'):?>
@@ -1468,6 +1461,7 @@ echo $component->arResult['HTML'];
 	<?}
 }?>
 <script type="text/javascript">
+
 	viewItemCounter('<?=$arResult["ID"];?>','<?=current($arParams["PRICE_CODE"]);?>');
 
 	var viewedCounter = {
@@ -1611,4 +1605,3 @@ echo $component->arResult['HTML'];
 </script>
 <?$des->finishDynamicArea();?>
 <?if($_GET["RID"]){?><script>$(document).ready(function(){$("<div class='rid_item' data-rid='<?=htmlspecialcharsbx($_GET["RID"]);?>'></div>").appendTo($('body'));});</script><?}?>
-

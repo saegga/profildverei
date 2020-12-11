@@ -187,6 +187,7 @@ $(document).ready(function(){
 				type: 'POST',
 				data: obParams,
 			}).success(function(html){
+
 				var ob = BX.processHTML(html);BX.ajax.processScripts(ob.SCRIPT);
 				if($('.counter_wrapp.list'))
 				{
