@@ -6183,8 +6183,8 @@ $(document).ready(function(){
 				rid='',
 				bBannerAction = false,
 				basket_props='',
-				// naborIds='',
-				naborInfo=[],
+				naborIds=[],
+				// naborInfo=[],
 				naborLid='',
 				naborOffersCartProps='',
 				naborIblock='',
@@ -6227,16 +6227,16 @@ $(document).ready(function(){
 			// if($(this).data('nabor')){
 			// 	naborIds = $(this).data('nabor');
 			// }
-			if(window['nabor_ids'].length > 0){
+			if(window['nabor_ids'] && window['nabor_ids'].length > 0){
 				naborIds = window['nabor_ids'];
 			}
-			if(window['nabor_offersCartProps'].length > 0){
+			if(window['nabor_offersCartProps'] && window['nabor_offersCartProps'].length > 0){
 				naborOffersCartProps = window['nabor_offersCartProps'];
 			}
-			if(window['nabor_iblockId'].length > 0){
+			if(window['nabor_iblockId'] && window['nabor_iblockId'].length > 0){
 				naborIblock = window['nabor_iblockId'];
 			}
-			if(window['nabor_lid'].length > 0){
+			if(window['nabor_lid'] && window['nabor_lid'].length > 0){
 				naborLid = window['nabor_lid'];
 			}
 
@@ -9515,9 +9515,61 @@ function fileInputInit(message){
 /*BX.addCustomEvent('onAsproSkuSetPriceMatrix', function(eventdata){
 	console.log(eventdata);
 })*/
+$(document).ready(function(){
+	recalcPrice();
+});
+var recalcMinPrice = function(price, discountPrice, economyPrice){
 
-var recalcRatioPrice = function(ratio){
+	economyPrice = economyPrice || null;
+	discountPrice = discountPrice || null;
 
+	var blockPrice = document.getElementsByClassName("product-action")[0];
+	
+	var prices = BX.findChild(blockPrice, {className: "price"}, true, true)
+	for(var i = 0; i < prices.length; i++){
+		// console.log(prices[i].getAttribute("data-value"))
+	}
+	
+	// если неск. тип цен
+	if(BX.findChild(blockPrice, {className: "price_group min"}, true)){
+		// set min price
+		var priceMin = BX.findChild(blockPrice, {className: "price_group min"}, true)
+		var priceMinValues = BX.findChild(priceMin, {className: "price"}, true, true)
+
+		for(var i = 0; i < priceMinValues.length; i++){
+			console.log(priceMinValues[i])
+			if(priceMinValues[i].classList.contains("discount")){
+				// discount
+				console.log(discountPrice)
+				if(discountPrice){
+					priceMinValues[i].setAttribute("data-value", discountPrice);
+					var priceDiscountVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
+					priceDiscountVal.innerHTML = discountPrice;
+				}
+			}else{
+				console.log(discountPrice)
+				// min price val
+				priceMinValues[i].setAttribute("data-value", price);
+				var priceVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
+				priceVal.innerHTML = price;
+			}
+			
+		}
+		if(economyPrice){
+			if(BX.findChild(priceMin, {className: "sale_block"}, true)){
+				var saleBlock = BX.findChild(priceMin, {className: "sale_block"}, true);
+				var saleVal = BX.findChild(saleBlock, {className: "price_value"}, true);
+				saleVal.innerHTML = economyPrice;
+			}
+		}
+		// console.log(priceMinValues)
+	}
+
+	// if(BX.findChild(blockPrice, {className: "price_group"}, true)){
+	// 	console.log("pr")
+	// }else if(BX.findChild(blockPrice, {className: "price_matrix_wrapper"}, true)){
+	// 	console.log("group")
+	// }
 };
 
 function declOfNum(number, titles)
@@ -9525,3 +9577,4 @@ function declOfNum(number, titles)
 	var cases = [2, 0, 1, 1, 1, 2];
 	return number + " " + titles[ (number%100>4 && number%100<20)? 2 : cases[Math.min(number%10, 5)] ];
 }
+
