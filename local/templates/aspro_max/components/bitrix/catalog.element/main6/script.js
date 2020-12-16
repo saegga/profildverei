@@ -3838,28 +3838,31 @@ $('.set_block').ready(function(){
 					blockPriceVal.innerHTML = BX.Currency.currencyFormat(newPriceMin, prices.CURRENCY, false);
 					blockPriceValues[j].setAttribute("data-value", newPriceMin);
 				}
-				if(economy > 0){
-
-					if(BX.findChild(priceMin, {className: "sale_block"}, true)){
-
-						var saleBlock = BX.findChild(priceMin, {className: "sale_block"}, true);
-						var saleVal = BX.findChild(saleBlock, {className: "price_value"}, true);
-						
-						saleVal = Number(saleVal.innerText);
-
-						if(typeOper === 'minus'){
-							var oldQuantity = quantity + 1;
-							newEconomy = saleVal - economy;
-						}else{
-							oldQuantity = quantity - 1;
-							newEconomy = saleVal + economy;
-						}
-
-						saleVal.innerHTML = BX.Currency.currencyFormat(newEconomy, prices.CURRENCY, false);
-					}
-				}
 			}
 
+			if(economy > 0){
+				debugger
+				if(BX.findChild(blockPriceMin, {className: "sale_block"}, true)){
+
+					var saleBlock = BX.findChild(priceMin, {className: "sale_block"}, true);
+					var saleVal = BX.findChild(saleBlock, {className: "price_value"}, true);
+					
+					var saleValNumber = Number(saleVal.innerText.replace(/\s+/g, ""));
+
+					if(typeOper === 'minus'){
+						var oldQuantity = quantity + 1;
+						newEconomy = saleValNumber - economy;
+					}else{
+						oldQuantity = quantity - 1;
+						newEconomy = saleValNumber + economy;
+					}
+
+					var blockSaleBlock = BX.findChild(blockPriceMin, {className: "sale_block"}, true);
+					var blockSaleVal = BX.findChild(blockSaleBlock, {className: "price_value"}, true);
+					
+					blockSaleVal.innerHTML = BX.Currency.currencyFormat(newEconomy, prices.CURRENCY, false);
+				}
+			}
 		}else{
 			var priceMinValues = BX.findChild(blockPrice, {className: "price"}, true, true);
 			var blockPriceDiscountVal = BX.findChild(newBlock[0], {className: "price"}, true);
@@ -3907,23 +3910,27 @@ $('.set_block').ready(function(){
 				}
 			}
 			if(economy > 0){
-				if(BX.findChild(priceMin, {className: "sale_block"}, true)){
-
+				if(BX.findChild(blockPriceMin, {className: "sale_block"}, true)){
+	
 					var saleBlock = BX.findChild(priceMin, {className: "sale_block"}, true);
 					var saleVal = BX.findChild(saleBlock, {className: "price_value"}, true);
-
-					saleVal = Number(saleVal.innerText);
-
+	
+					saleValNumber = Number(saleVal.innerText.replace(/\s+/g, ""));
+	
 					if(typeOper === 'minus'){
-						newEconomy = saleVal - economy;
+						newEconomy = saleValNumber - economy;
 					}else{
-						newEconomy = saleVal + economy;
+						newEconomy = saleValNumber + economy;
 					}
-
-					saleVal.innerHTML = BX.Currency.currencyFormat(newEconomy, prices.CURRENCY, false);
+	
+					var blockSaleBlock = BX.findChild(blockPriceMin, {className: "sale_block"}, true);
+					var blockSaleVal = BX.findChild(blockSaleBlock, {className: "price_value"}, true);
+					
+					blockSaleVal.innerHTML = BX.Currency.currencyFormat(newEconomy, prices.CURRENCY, false);
 				}
 			}
 		}
+
 
 		
 
