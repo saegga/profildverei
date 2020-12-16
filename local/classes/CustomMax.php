@@ -4,7 +4,7 @@ namespace SM;
 use Bitrix\Main\Config\Option;
 use Bitrix\Main\Loader;
 use \Bitrix\Main\Localization\Loc;
-
+use Bitrix\Main\Diag;
 
 class CustomMax extends \CMax{
 
@@ -239,6 +239,7 @@ class CustomMax extends \CMax{
         $arFilter = $arShowValues = array();
 
         /*get correct values*/
+        
         foreach ($arSkuProps as $key => $arProp){
             $strName = 'PROP_'.$arProp['ID'];
             $arShowValues = self::GetRowValues($arFilter, $strName, $arItem);
@@ -262,7 +263,7 @@ class CustomMax extends \CMax{
                     $arCanBuyValues[] = $value;
                 }
             }
-
+            Diag\Debug::writeToFile($arSkuProps, $varName = "arSkuProps1", $fileName = "debug.txt");
             $arSkuProps[$key] = self::UpdateRow($arFilter[$strName], $arShowValues, $arCanBuyValues, $arProp, $type_view);
         }
         /**/
@@ -273,6 +274,7 @@ class CustomMax extends \CMax{
                 $arSkuTemplate[$iblockId] = array();
                 $j = 0;
                 foreach ($skuProps as $key=>&$arProp){
+                    
 
                     if($arProp['VALUES'])
                     {
@@ -292,7 +294,9 @@ class CustomMax extends \CMax{
                     $class_title.= (($arProp["HINT"] && $arProp["SHOW_HINTS"] == "Y") ? ' whint char_name' : '');
                     $hint_block = (($arProp["HINT"] && $arProp["SHOW_HINTS"]=="Y") ? '<div class="hint"><span class="icon"><i>?</i></span><div class="tooltip">'.$arProp["HINT"].'</div></div>' : '');
                     if(($arProp["DISPLAY_TYPE"]=="P" || $arProp["DISPLAY_TYPE"]=="R" ) && $type_view!= 'block' ){
-                        $templateRow .= '<div class="bx_item_detail_size" '.$arProp['STYLE'].' id="#ITEM#_prop_'.$arProp['ID'].'_cont" data-display_type="SELECT" data-id="'.$arProp['ID'].'">'.
+
+                        
+                        $templateRow .= '<div class="bx_item_detail_size44" '.$arProp['STYLE'].' id="#ITEM#_prop_'.$arProp['ID'].'_cont" data-display_type="SELECT" data-id="'.$arProp['ID'].'">'.
                             '<span class="'.$class_title.'"><span>'.htmlspecialcharsex($arProp['NAME']).$hint_block.'<span class="sku_mdash">&mdash;</span>'.$arProp['VALUE'].'</span></span>'.
                             '<div class="bx_size_scroller_container form-control bg"><div class="bx_size"><select id="#ITEM#_prop_'.$arProp['ID'].'_list" class="list_values_wrapper">';
                         foreach ($arProp['VALUES'] as $arOneValue){
@@ -311,7 +315,7 @@ class CustomMax extends \CMax{
                         $templateRow .= '</select></div>'.
                             '</div></div>';
                     }elseif ('TEXT' == $arProp['SHOW_MODE']){
-                        $templateRow .= '<div class="bx_item_detail_size" '.$arProp['STYLE'].' id="#ITEM#_prop_'.$arProp['ID'].'_cont" data-display_type="LI" data-id="'.$arProp['ID'].'">'.
+                        $templateRow .= '<div class="bx_item_detail_size33" '.$arProp['STYLE'].' id="#ITEM#_prop_'.$arProp['ID'].'_cont" data-display_type="LI" data-id="'.$arProp['ID'].'">'.
                             '<span class="'.$class_title.'"><span>'.htmlspecialcharsex($arProp['NAME']).$hint_block.'<span class="sku_mdash">&mdash;</span>'.$arProp['VALUE'].'</span></span>'.
                             '<div class="bx_size_scroller_container"><div class="bx_size"><ul id="#ITEM#_prop_'.$arProp['ID'].'_list" class="list_values_wrapper">';
                         foreach ($arProp['VALUES'] as $arOneValue){
@@ -388,13 +392,13 @@ class CustomMax extends \CMax{
 
                         if($isHasPicture)
                         {
-                            $templateRow .= '<div class="bx_item_detail_scu" '.$arProp['STYLE'].' id="#ITEM#_prop_'.$arProp['ID'].'_cont" data-display_type="LI" data-id="'.$arProp['ID'].'">'.
+                            $templateRow .= '<div class="bx_item_detail_scu22" '.$arProp['STYLE'].' id="#ITEM#_prop_'.$arProp['ID'].'_cont" data-display_type="LI" data-id="'.$arProp['ID'].'">'.
                                 '<span class="'.$class_title.'"><span>'.htmlspecialcharsex($arProp['NAME']).$hint_block.'<span class="sku_mdash">&mdash;</span>'.$arProp['VALUE'].'</span></span>'.
                                 '<div class="bx_scu_scroller_container"><div class="bx_scu"><ul id="#ITEM#_prop_'.$arProp['ID'].'_list" class="list_values_wrapper">';
                         }
                         else
                         {
-                            $templateRow .= '<div class="bx_item_detail_size" '.$arProp['STYLE'].' id="#ITEM#_prop_'.$arProp['ID'].'_cont" data-display_type="LI" data-id="'.$arProp['ID'].'">'.
+                            $templateRow .= '<div class="bx_item_detail_size22" '.$arProp['STYLE'].' id="#ITEM#_prop_'.$arProp['ID'].'_cont" data-display_type="LI" data-id="'.$arProp['ID'].'">'.
                                 '<span class="'.$class_title.'">'.htmlspecialcharsex($arProp['NAME']).'</span>'.
                                 '<div class="bx_size_scroller_container"><div class="bx_size"><ul id="#ITEM#_prop_'.$arProp['ID'].'_list" class="list_values_wrapper">';
                         }
@@ -425,6 +429,7 @@ class CustomMax extends \CMax{
         }else{
 
             foreach ($arSkuProps as $key=>&$arProp){
+
                 $templateRow = '';
                 $class_title.= (($arProp["HINT"] && $arProp["SHOW_HINTS"] == "Y") ? ' whint char_name' : '');
                 $hint_block = (($arProp["HINT"] && $arProp["SHOW_HINTS"]=="Y") ? '<span class="hint"><span class="icon"><i>?</i></span><span class="tooltip">'.$arProp["HINT"].'</span></span>' : '');
@@ -486,10 +491,11 @@ class CustomMax extends \CMax{
                         $showSkuMdash = true;
                     }
 
-                    $templateRow .= '<div class="bx_item_detail_size" '.$arProp['STYLE'].' id="#ITEM#_prop_'.$arProp['ID'].'_cont" data-display_type="SELECT" data-id="'.$arProp['ID'].'">'.
+                    $templateRow .= '<div class="bx_item_detail_size11" '.$arProp['STYLE'].' id="#ITEM#_prop_'.$arProp['ID'].'_cont" data-display_type="SELECT" data-id="'.$arProp['ID'].'">'.
                         '<span class="'.$class_title.'"><span>'.($arProp['TITLE'] ? $arProp['TITLE'] : $arProp['NAME']).$hint_block.($showSkuMdash ? '<span class="sku_mdash">&mdash;</span>'.$arProp['VALUE'].'</span>' : "") .'</span>'.
                         '<div class="bx_size_scroller_container form-control bg"><div class="bx_size"><select id="#ITEM#_prop_'.$arProp['ID'].'_list" class="list_values_wrapper">';
                     foreach ($arProp['VALUES'] as $arOneValue){
+                        
                         // if($arOneValue['ID']>0){
                         $arOneValue['NAME'] = htmlspecialcharsbx($arOneValue['NAME']);
                         $templateRow .= '<option '.$arOneValue['SELECTED'].' '.$arOneValue['DISABLED'].' data-treevalue="'.$arProp['ID'].'_'.$arOneValue['ID'].'" data-showtype="select" data-onevalue="'.$arOneValue['ID'].'" ';
@@ -505,7 +511,7 @@ class CustomMax extends \CMax{
                     $templateRow .= '</select></div>'.
                         '</div></div>';
                 }elseif ('TEXT' == $arProp['SHOW_MODE']){
-                    $templateRow .= '<div class="bx_item_detail_size" '.$arProp['STYLE'].' id="#ITEM#_prop_'.$arProp['ID'].'_cont" data-display_type="LI" data-id="'.$arProp['ID'].'">'.
+                    $templateRow .= '<div class="bx_item_detail_size11" '.$arProp['STYLE'].' id="#ITEM#_prop_'.$arProp['ID'].'_cont" data-display_type="LI" data-id="'.$arProp['ID'].'">'.
                         '<span class="'.$class_title.'"><span>'.($arProp['TITLE'] ? $arProp['TITLE'] : $arProp['NAME']).$hint_block.'<span class="sku_mdash">&mdash;</span>'.$arProp['VALUE'].'</span></span>'.
                         '<div class="bx_size_scroller_container"><div class="bx_size"><ul id="#ITEM#_prop_'.$arProp['ID'].'_list" class="list_values_wrapper" '.($max_count ? 'data-max-count="'.$max_count.'"' : '').'>';
                     foreach ($arProp['VALUES'] as $arOneValue){

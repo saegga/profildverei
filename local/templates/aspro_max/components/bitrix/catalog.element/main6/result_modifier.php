@@ -2,6 +2,7 @@
 use Bitrix\Main\Type\Collection;
 use Bitrix\Currency\CurrencyTable;
 use Bitrix\Iblock;
+use Bitrix\Main\Diag;
 
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED!==true) die();
 /** @var CBitrixComponentTemplate $this */
@@ -165,10 +166,11 @@ if ($arResult['MODULES']['catalog'])
 			$arSKU,
 			$arParams['OFFER_TREE_PROPS'],
 			array(
-				//'PICT' => $arEmptyPreview,
+				'PICT' => $arEmptyPreview,
 				'NAME' => '-'
 			)
 		);
+
 		$arResult["SKU_IBLOCK_ID"]=$arSKU["IBLOCK_ID"];
 		$arSKUPropIDs = array_keys($arSKUPropList);
 
@@ -392,8 +394,10 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 	$arFilterProp = array();
 	$arNeedValues = array();
 	if('TYPE_1' == $arParams['TYPE_SKU'] && $arResult['OFFERS'] ){
+		
 		foreach ($arResult['OFFERS'] as &$arOffer)
 		{
+			// Diag\Debug::writeToFile($arOffer, $varName = "arOffer", $fileName = "debug.txt");
 			foreach ($arSKUPropIDs as &$strOneCode)
 			{
 				if (isset($arOffer['DISPLAY_PROPERTIES'][$strOneCode]))
@@ -468,8 +472,11 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 		$boolSKUDisplayProperties = false;
 		$arOffer['OFFER_GROUP'] = false;
 		$arRow = array();
+		 Diag\Debug::writeToFile($arSKUPropIDs, $varName = "arSKUPropIDs", $fileName = "debug1.txt");
 		foreach ($arSKUPropIDs as $propkey => $strOneCode)
 		{
+			$arSKUPropList[$strOneCode]['VALUES'][$propKey]['PICT']['SRC'] = $arOffer['PREVIEW_PICTURE']['SAFE_SRC'];
+
 			$arCell = array(
 				'VALUE' => 0,
 				'SORT' => PHP_INT_MAX,
@@ -496,6 +503,7 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 			}
 			$arRow[$strOneCode] = $arCell;
 		}
+		
 		$arMatrix[$keyOffer] = $arRow;
 
 		CIBlockPriceTools::setRatioMinPrice($arOffer, false);
@@ -553,6 +561,7 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 		$boolExist = $arMatrixFields[$strOneCode];
 		foreach ($arMatrix as $keyOffer => $arRow)
 		{
+			Diag\Debug::writeToFile($arRow, $varName = "arRow", $fileName = "debug1.txt");
 			if ($boolExist)
 			{
 				if (!isset($arResult['OFFERS'][$keyOffer]['TREE']))
@@ -569,6 +578,8 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 				unset($arMatrix[$keyOffer][$strOneCode]);
 			}
 		}
+		
+		
 
 		if($arPropSKU[$strOneCode]){
 			// sort sku prop values
@@ -576,6 +587,7 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 			$arSKUPropList[$strOneCode]["VALUES"] = $arPropSKU[$strOneCode];
 		}
 	}
+	Diag\Debug::writeToFile($arPropSKU, $varName = "arPropSKU", $fileName = "debug1.txt");
 	$arResult['OFFERS_PROP'] = $arUsedFields;
 	$arResult['OFFERS_PROP_CODES'] = (!empty($arUsedFields) ? base64_encode(serialize(array_keys($arUsedFields))) : '');
 
@@ -1218,6 +1230,8 @@ if($arSKUPropList)
 }
 
 $arResult['SKU_PROPS'] = $arSKUPropList;
+Diag\Debug::writeToFile($arResult['SKU_PROPS'], $varName = "sku props", $fileName = "debug.txt");
+// var_dump($arResult['SKU_PROPS']);
 $arResult['DEFAULT_PICTURE'] = $arEmptyPreview;
 
 $arResult['CURRENCIES'] = array();
@@ -1306,6 +1320,7 @@ if($arParams['LINKED_FILTER_BY_PROP']['EXPANDABLES'] || $arParams['LINKED_FILTER
 $arBrand = array();
 if(strlen($arResult["DISPLAY_PROPERTIES"]["BRAND"]["VALUE"]) && $arResult["PROPERTIES"]["BRAND"]["LINK_IBLOCK_ID"]){
 	$arBrand = CMaxCache::CIBLockElement_GetList(array('CACHE' => array("MULTI" =>"N", "TAG" => CMaxCache::GetIBlockCacheTag($arResult["PROPERTIES"]["BRAND"]["LINK_IBLOCK_ID"]))), array("IBLOCK_ID" => $arResult["PROPERTIES"]["BRAND"]["LINK_IBLOCK_ID"], "ACTIVE"=>"Y", "ID" => $arResult["DISPLAY_PROPERTIES"]["BRAND"]["VALUE"]));
+
 	if($arBrand){
 		if($arParams["SHOW_BRAND_PICTURE"] == "Y" && ($arBrand["PREVIEW_PICTURE"] || $arBrand["DETAIL_PICTURE"])){
 			$picture = ($arBrand["PREVIEW_PICTURE"] ? $arBrand["PREVIEW_PICTURE"] : $arBrand["DETAIL_PICTURE"]);

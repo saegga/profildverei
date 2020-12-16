@@ -2454,8 +2454,8 @@ $('.set_block').ready(function(){
 	{
 		if(typeof this.config.offerShowPreviewPictureProps === 'object' && this.config.offerShowPreviewPictureProps.length){
 			var currentTree = this.selectedValues;
-
 			for(var i in this.obTreeRows){
+
 				if(BX.util.in_array(this.treeProps[i].CODE, this.config.offerShowPreviewPictureProps)){
 					var RowItems = BX.findChildren(this.obTreeRows[i].LIST, {tagName: 'LI'}, false);
 					if(!!RowItems && 0 < RowItems.length){
@@ -2484,6 +2484,7 @@ $('.set_block').ready(function(){
 											}
 										}
 										if(boolOneSearch){
+										
 											if(typeof this.offers[m].PREVIEW_PICTURE === 'object' && this.offers[m].PREVIEW_PICTURE.SRC){
 												var newBgi = 'url("' + this.offers[m].PREVIEW_PICTURE.SRC + '")';
 												if(bgi !== newBgi){
@@ -2517,6 +2518,82 @@ $('.set_block').ready(function(){
 										ImgItem.style.backgroundImage = obgi;
 										BX.removeClass(ImgItem, 'pp');
 									}
+								}
+							}
+						}
+					}
+				}
+				
+				
+				var opt = BX.findChildren(this.obTreeRows[i].LIST, {tagName: 'option'}, false);
+				
+				// COLOR_REF
+				if(this.obTreeRows[i].CONT.getAttribute('data-id') === '719'){
+					if(!!opt && 0 < opt.length){
+						for(var j in opt){
+							var value = opt[j].getAttribute('data-onevalue');
+							if(value != 0){
+								// debugger
+								var bgi = opt[j].style.backgroundImage;
+								var obgi = opt[j].getAttribute('data-img_src');
+								// debugger
+								if(!obgi){
+									obgi = bgi;
+									opt[j].setAttribute('data-img_src', obgi);
+								}
+								
+								var boolOneSearch = false;
+								var rowTree = BX.clone(currentTree, true);
+								rowTree['PROP_' + this.treeProps[i].ID] = value;
+	
+								for(var m in this.offers){
+									boolOneSearch = true;
+									for(var n in rowTree){
+										// debugger
+										if(rowTree[n] !== this.offers[m].TREE[n]){
+											// debugger
+											boolOneSearch = false;
+											break;
+										}
+									}
+									if(boolOneSearch){
+									
+										if(typeof this.offers[m].PREVIEW_PICTURE === 'object' && this.offers[m].PREVIEW_PICTURE.SRC){
+											var newBgi = this.offers[m].PREVIEW_PICTURE.SRC;
+											// debugger
+											if(bgi !== newBgi){
+												// ImgItem.style.backgroundImage = newBgi;
+												opt[j].setAttribute('data-img_src', newBgi);
+												// BX.addClass(ImgItem, 'pp');
+											}
+										}
+										else{
+											boolOneSearch = false;
+										}
+										break;
+									}
+								}
+			
+								for(var m in this.offers)
+								{
+									
+									if(rowTree['PROP_' + this.treeProps[i].ID] == this.offers[m].TREE['PROP_' + this.treeProps[i].ID] && !boolOneSearch)
+									{
+										// debugger
+										if(typeof this.offers[m].PREVIEW_PICTURE === 'object' && this.offers[m].PREVIEW_PICTURE.SRC)
+										{
+											var newBgi = this.offers[m].PREVIEW_PICTURE.SRC;
+											opt[j].setAttribute('data-img_src', newBgi);
+											
+											boolOneSearch = true;
+										}
+										break
+									}
+								}
+
+								if(!boolOneSearch && obgi && bgi !== obgi){
+									opt[j].style.backgroundImage = obgi;
+									BX.removeClass(opt[j], 'img');
 								}
 							}
 						}
@@ -2780,7 +2857,9 @@ $('.set_block').ready(function(){
 			this.UpdateRow(i, arFilter[strName], arShowValues, arCanBuyValues);
 		}
 		this.VisibleCustomInfo();
+		
 		this.selectedValues = arFilter;
+		console.log(this.selectedValues)
 		this.ChangeInfo();
 	};
 
@@ -3040,7 +3119,9 @@ $('.set_block').ready(function(){
 				ItemObj.WINDOW_TITLE = this.offers[index].NAME+''+this.offers[index].POSTFIX;
 			}
 
+			this.VisibleCustomInfo();
 			$('.catalog_detail input[data-sid="PRODUCT_NAME"]').attr('value', $('h1').text());
+			
 
 			setTimeout(function(){
 				setNewHeader(obj);
@@ -3688,9 +3769,266 @@ $('.set_block').ready(function(){
 		}
 	}
 
+	window.JCCatalogElement.prototype.changePriceCustom2 = function(blockPrice, typeOper){
+		
+		var tr = BX.findChild(document.getElementsByClassName('bx-added-item-table')[0], {tagName: "TR"});
+		var isNaborActive = false;
+		var quantity = Number(this.offers[this.offerNum].offer_set_quantity);
+		
+		prices = this.offers[this.offerNum].PRICE;
+		var minPrice = Number(prices.DISCOUNT_VALUE);
+		var oldPrice = Number(prices.VALUE) 
+		var economy = Number(prices.DISCOUNT_DIFF);
+		
+		var newPriceMin = minPrice;
+		var newPriceOld = oldPrice;
+		var newEconomy = economy;
+
+		var newBlock = $(".prices_block");
+
+		if(BX.findChild(blockPrice[0], {className: "price_group min"}, true)){
+			var priceMin = BX.findChild(blockPrice[0], {className: "price_group min"}, true);
+			var priceMinValues = BX.findChild(priceMin, {className: "price"}, true, true);
+			var blockPriceMin = BX.findChild(newBlock[0], {className: "price_group min"}, true);
+			var blockPriceMinValues = BX.findChild(blockPriceMin, {className: "price"}, true, true);
+
+			for(var j = 0; j < priceMinValues.length; j++){
+
+				if(priceMinValues[j].classList.contains("discount")){
+
+					var priceDiscount = BX.findChild(priceMinValues[j], {className: "price_value"}, true);
+					var priceDiscountVal = Number(priceMinValues[j].getAttribute("data-value"));
+
+					if(typeOper === 'minus'){
+						var oldQuantity = quantity + 1;
+						newPriceOld = (quantity * oldPrice) - (priceDiscountVal - (oldPrice * oldQuantity));
+					}else{
+						var oldQuantity = quantity - 1;
+						newPriceOld = (quantity * oldPrice) + (priceDiscountVal - (oldPrice * oldQuantity));
+					}
+
+					console.log("old price - " + newPriceOld);
+					// priceMinValues[j].setAttribute("data-value", newPriceOld);
+					// priceDiscount.innerHTML = BX.Currency.currencyFormat(newPriceOld, prices.CURRENCY, false);
+
+					var blockPriceDiscount = BX.findChild(blockPriceMinValues[j], {className: "price_value"}, true);
+					blockPriceMinValues[j].setAttribute("data-value", newPriceOld);
+					blockPriceDiscount.innerHTML = BX.Currency.currencyFormat(newPriceOld, prices.CURRENCY, false);
+				}else{
+
+					// min price val
+					
+					var priceVal = BX.findChild(priceMinValues[j], {className: "price_value"}, true);
+					var price = Number(priceMinValues[j].getAttribute("data-value"));
+
+					if(typeOper === 'minus' ){
+						var oldQuantity = quantity + 1;
+						newPriceMin = (quantity * minPrice) - (price - (minPrice * oldQuantity));
+					}else{
+						oldQuantity = quantity - 1;
+						newPriceMin = (quantity * minPrice) + (price - (minPrice * oldQuantity));
+					}
+
+					console.log('min price - ' + newPriceMin);
+
+					var blockPriceMin = BX.findChild(newBlock[0], {className: "price_group min"}, true);
+					var blockPriceValues = BX.findChild(blockPriceMin, {className: "price"}, true, true);
+					var blockPriceVal = BX.findChild(blockPriceValues[j], {className: "price_value"}, true);
+
+					blockPriceVal.innerHTML = BX.Currency.currencyFormat(newPriceMin, prices.CURRENCY, false);
+					blockPriceValues[j].setAttribute("data-value", newPriceMin);
+				}
+				if(economy > 0){
+
+					if(BX.findChild(priceMin, {className: "sale_block"}, true)){
+
+						var saleBlock = BX.findChild(priceMin, {className: "sale_block"}, true);
+						var saleVal = BX.findChild(saleBlock, {className: "price_value"}, true);
+						
+						saleVal = Number(saleVal.innerText);
+
+						if(typeOper === 'minus'){
+							var oldQuantity = quantity + 1;
+							newEconomy = saleVal - economy;
+						}else{
+							oldQuantity = quantity - 1;
+							newEconomy = saleVal + economy;
+						}
+
+						saleVal.innerHTML = BX.Currency.currencyFormat(newEconomy, prices.CURRENCY, false);
+					}
+				}
+			}
+
+		}else{
+			var priceMinValues = BX.findChild(blockPrice, {className: "price"}, true, true);
+			var blockPriceDiscountVal = BX.findChild(newBlock[0], {className: "price"}, true);
+
+			for(var j = 0; j < priceMinValues.length; j++){
+				if(priceMinValues[j].classList.contains("discount")){
+
+					var priceDiscount = BX.findChild(priceMinValues[j], {className: "price_value"}, true);
+					var priceDiscountVal = Number(priceMinValues[j].getAttribute("data-value"));
+
+					if(typeOper === 'minus'){
+						newPriceOld = (quantity * oldPrice) - (priceDiscountVal - (oldPrice * oldQuantity));
+					}else{
+						newPriceOld = (quantity * oldPrice) + (priceDiscountVal - (oldPrice * oldQuantity));
+					}
+
+					console.log("discount price - " + newPriceOld);
+					
+					
+					var blockPriceDiscount = BX.findChild(blockPriceDiscountVal[j], {className: "price_value"}, true);
+
+					blockPriceDiscountVal[j].setAttribute("data-value", newPriceOld);
+					// priceDiscount.innerHTML = BX.Currency.currencyFormat(newPriceOld, prices.CURRENCY, false);
+					blockPriceDiscount.innerHTML = BX.Currency.currencyFormat(newPriceOld, prices.CURRENCY, false);
+				}else{
+						
+					var priceVal = BX.findChild(priceMinValues[j], {className: "price_value"}, true);
+					var price = Number(priceMinValues[j].getAttribute("data-value"));
+
+					if(typeOper === 'minus'){
+						var oldQuantity = quantity + 1;
+						newPriceMin = (quantity * minPrice) - (price - (minPrice * oldQuantity));
+					}else{
+						oldQuantity = quantity - 1;
+						newPriceMin = (quantity * minPrice) + (price - (minPrice * oldQuantity));
+					}
+					
+					console.log('new price - ' + newPriceMin);
+					var blockPriceMin = BX.findChild(newBlock[0], {className: "price_group min"}, true);
+					var blockPriceValues = BX.findChild(blockPriceMin, {className: "price"}, true, true);
+					var blockPriceVal = BX.findChild(blockPriceValues[j], {className: "price_value"}, true);
+
+					blockPriceVal.innerHTML = BX.Currency.currencyFormat(newPriceMin, prices.CURRENCY, false);
+					blockPriceValues[j].setAttribute("data-value", newPriceMin);
+				}
+			}
+			if(economy > 0){
+				if(BX.findChild(priceMin, {className: "sale_block"}, true)){
+
+					var saleBlock = BX.findChild(priceMin, {className: "sale_block"}, true);
+					var saleVal = BX.findChild(saleBlock, {className: "price_value"}, true);
+
+					saleVal = Number(saleVal.innerText);
+
+					if(typeOper === 'minus'){
+						newEconomy = saleVal - economy;
+					}else{
+						newEconomy = saleVal + economy;
+					}
+
+					saleVal.innerHTML = BX.Currency.currencyFormat(newEconomy, prices.CURRENCY, false);
+				}
+			}
+		}
+
+		
+
+		// var min_price = $(".product-main").find('.to-cart').attr('data-value');
+
+		// if(tr){
+		// 	var summNabor = 0;
+		// 	for(k in tr){
+		// 		if(tr.classList.contains('choice')){
+		// 			isNaborActive = true;
+		// 			summNabor += tr[k].getAttribute('data-price');
+
+		// 		}
+		// 		console.log(tr);
+		// 	}
+		// }
+
+		// if(isNaborActive){
+		// 	var total = (minPrice * quantity) + summNabor;
+		// 	var oldPrice = (oldPrice * quantity) + summNabor;
+		// 	var economy = (economy * quantity) + summNabor;
+		// 	console.log("total - " + total);
+		// 	console.log("oldPrice - " + oldPrice);
+		// 	console.log("economy - " + economy);
+		// }else{
+		// 	// без набора
+		// 	var total = (minPrice * quantity);
+		// 	var oldPrice = (oldPrice * quantity);
+		// 	var economy = (economy * quantity);
+		// 	console.log("total - " + total);
+		// 	console.log("oldPrice - " + oldPrice);
+		// 	console.log("economy - " + economy);
+		// }
+	}
+
+	window.JCCatalogElement.prototype.changePriceCustom = function(priceMin, $quantity){
+		
+		var quantity = this.offers[this.offerNum].offer_set_quantity;
+
+		// for(var i = 0; i < this.offers[this.offerNum].PRICES.length; i++){
+
+		// 	if(this.offers[this.offerNum].PRICES[i].MIN === "Y"){
+		// 		prices = this.offers[this.offerNum].PRICES[i];
+		// 		var discount = prices.DISCOUNT_VALUE * $quantity;
+		// 		var value = prices.VALUE * $quantity
+		// 		var economy = price.DISCOUNT_DIFF * $quantity;
+		// 	}
+
+		// }
+
+		// if(BX.findChild(blockPrice, {className: "price_group min"}, true)){
+		// 	// set min price
+		// 	var priceMin = BX.findChild(blockPrice, {className: "price_group min"}, true)
+		// 	var priceMinValues = BX.findChild(priceMin, {className: "price"}, true, true)
+	
+		// 	for(var i = 0; i < priceMinValues.length; i++){
+
+		// 		if(priceMinValues[i].classList.contains("discount")){
+		// 			// discount
+					
+		// 			if(discountPrice){
+		// 				priceMinValues[i].setAttribute("data-value", discountPrice);
+		// 				var priceDiscountVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
+		// 				priceDiscountVal.innerHTML = BX.Currency.currencyFormat(discountPrice, this.currency, false);
+		// 			}
+		// 		}else{
+					
+		// 			// min price val
+		// 			priceMinValues[i].setAttribute("data-value", priceMin);
+		// 			var priceVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
+		// 			priceVal.innerHTML = BX.Currency.currencyFormat(price, this.currency, false);
+		// 		}
+				
+		// 	}
+		// 	if(economyPrice){
+		// 		if(BX.findChild(priceMin, {className: "sale_block"}, true)){
+		// 			var saleBlock = BX.findChild(priceMin, {className: "sale_block"}, true);
+		// 			var saleVal = BX.findChild(saleBlock, {className: "price_value"}, true);
+		// 			saleVal.innerHTML = BX.Currency.currencyFormat(economyPrice, this.currency, false);
+		// 		}
+		// 	}
+		// }else{
+
+		// }
+
+		
+
+		// debugger
+		// var tr = BX.findChild(document.getElementsByClassName('bx-added-item-table')[0], {tagName: "TR"});
+
+		// if(tr){
+		// 	var priceNabor = 0;
+		// 	for(k in tr){
+		// 		if(tr.classList.contains('choice')){
+		// 			priceNabor += tr.getAttribute("data-price");
+		// 		}
+		// 		console.log(tr);
+		// 	}
+		// 	value += priceNabor;
+		// }
+
+	}
 	window.JCCatalogElement.prototype.setPrice = function(obPrices, measure)
 	{
-
+		
 		var prices = '';
 		if (!!this.obPrice.price)
 		{
@@ -3809,6 +4147,7 @@ $('.set_block').ready(function(){
 				BX.onCustomEvent('onAsproSkuSetPrice', [eventdata])
 			}
 		}
+		this.changePriceCustom(obPrices, measure)
 	};
 
 	window.JCCatalogElement.prototype.Compare = function()

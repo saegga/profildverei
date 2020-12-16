@@ -259,6 +259,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']);?>
 									<div class="item-title font_sm"><?=$arSKU['NAME']?></div>
 									<div class="quantity_block_wrapper">
 										<?if($arQuantityData["RIGHTS"]["SHOW_QUANTITY"]):?>
+											
 											<?=$arskuQuantityData["HTML"];?>
 										<?endif;?>
 										<?if($arSKU['PROPERTIES']['ARTICLE']['VALUE']):?>
@@ -617,17 +618,13 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']);?>
 
 			<div class="product-main">
 				<div class="product-info-headnote clearfix">
-					<div class="flexbox flexbox--row align-items-center justify-content-between flex-wrap">
-						<?//delay|compare?>
-						<div class="col-auto">
+					<div class="flexbox flexbox--row align-items-top justify-content-between flex-wrap">
+						<?//delay|compare col-auto?>
+
+						<div class="col-xs-6 element_6_headnote">
 							<div class="product-info-headnote__toolbar">
+								<div class="wrapper_headnote_rating">
 								<?\Aspro\Functions\CAsproMaxItem::showDelayCompareBtn($arParams, $arResult, $arAddToBasketData, $totalCount, $bUseSkuProps, 'list static icons long', false, false, '_small', $currentSKUID, $currentSKUIBlock);?>
-							</div>
-						</div>
-						<?//article,rating,brand?>
-						<div class="col-auto">
-							<div class="product-info-headnote__inner">
-								<?$isArticle=(strlen($arResult["CML2_ARTICLE"]["VALUE"]) || ($arResult['SHOW_OFFERS_PROPS'] && $showCustomOffer));?>
 								<?if($arParams["SHOW_RATING"] == "Y"):?>
 									<div class="product-info-headnote__rating">
 										<?$frame = $this->createFrame('dv_'.$arResult["ID"])->begin();?>
@@ -675,6 +672,23 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']);?>
 										<?$frame->end();?>
 									</div>
 								<?endif;?>
+								</div>
+								<div class="quantity_block_wrapper">
+									<?=$arQuantityData["HTML"];?>
+									<?if($arParams["SHOW_CHEAPER_FORM"] == "Y"):?>
+										<div class="cheaper_form muted777 font_sxs">
+											<?=CMax::showIconSvg("cheaper", SITE_TEMPLATE_PATH.'/images/svg/catalog/cheaper.svg', '', '', true, false);?>
+											<span class="animate-load dotted" data-event="jqm" data-param-form_id="CHEAPER" data-name="cheaper" data-autoload-product_name="<?=CMax::formatJsName($arResult["NAME"]);?>" data-autoload-product_id="<?=$arResult["ID"];?>"><?=($arParams["CHEAPER_FORM_NAME"] ? $arParams["CHEAPER_FORM_NAME"] : Loc::getMessage("CHEAPER"));?></span>
+										</div>
+									<?endif;?>
+								</div>
+							</div>
+						</div>
+						<?//article,rating,brand?>
+						<div class="col-xs-6 element_6_headnote">
+							<div class="product-info-headnote__inner">
+								<?$isArticle=(strlen($arResult["CML2_ARTICLE"]["VALUE"]) || ($arResult['SHOW_OFFERS_PROPS'] && $showCustomOffer));?>
+								
 								<?if($isArticle):?>
 									<div class="product-info-headnote__article">
 										<div class="article muted font_xs" itemprop="additionalProperty" itemscope itemtype="http://schema.org/PropertyValue" <?if($arResult['SHOW_OFFERS_PROPS']){?>id="<? echo $arItemIDs["ALL_ITEM_IDS"]['DISPLAY_PROP_ARTICLE_DIV'] ?>" style="display: none;"<?}?>>
@@ -840,17 +854,6 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']);?>
 													})
 												</script>
 											<?endif;?>
-
-											<?//stock?>
-											<div class="quantity_block_wrapper">
-												<?=$arQuantityData["HTML"];?>
-												<?if($arParams["SHOW_CHEAPER_FORM"] == "Y"):?>
-													<div class="cheaper_form muted777 font_sxs">
-														<?=CMax::showIconSvg("cheaper", SITE_TEMPLATE_PATH.'/images/svg/catalog/cheaper.svg', '', '', true, false);?>
-														<span class="animate-load dotted" data-event="jqm" data-param-form_id="CHEAPER" data-name="cheaper" data-autoload-product_name="<?=CMax::formatJsName($arResult["NAME"]);?>" data-autoload-product_id="<?=$arResult["ID"];?>"><?=($arParams["CHEAPER_FORM_NAME"] ? $arParams["CHEAPER_FORM_NAME"] : Loc::getMessage("CHEAPER"));?></span>
-													</div>
-												<?endif;?>
-											</div>
 										</div>
 
 										<?//offers tree props?>
@@ -989,51 +992,50 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']);?>
 								<?endif;?>
 							<?$this->EndViewTarget();?>
 						</div>
+						<?//props?>
+						<?$bShowMoreLink = ($iCountProps > $arParams['VISIBLE_PROP_COUNT']);?>
+						<?if($arResult['DISPLAY_PROPERTIES'] || $arResult['DISPLAY_PROPERTIES_OFFERS']):?>
+							<div class="char-side">
+								<div class="char-side__title font_sm darken"><?=($arParams["T_CHARACTERISTICS"] ? $arParams["T_CHARACTERISTICS"] : Loc::getMessage("T_CHARACTERISTICS"));?></div>
+								<div class="properties list">
+									<div class="properties__container properties">
+										<?$j=0;?>
+										<?foreach($arResult['DISPLAY_PROPERTIES'] as $arProp):?>
+											<?if($j<$arParams['VISIBLE_PROP_COUNT']):?>
+												<div class="properties__item properties__item--compact font_xs">
+													<div class="properties__title muted properties__item--inline">
+														<?=$arProp['NAME']?>
+														<?if($arProp["HINT"] && $arParams["SHOW_HINTS"]=="Y"):?>
+															<div class="hint">
+																<span class="icon colored_theme_hover_bg"><i>?</i></span>
+																<div class="tooltip"><?=$arProp["HINT"]?></div>
+															</div>
+														<?endif;?>
+													</div>
+													<div class="properties__hr muted properties__item--inline">&mdash;</div>
+													<div class="properties__value darken properties__item--inline">
+														<?if(count($arProp["DISPLAY_VALUE"]) > 1):?>
+															<?=implode(', ', $arProp["DISPLAY_VALUE"]);?>
+														<?else:?>
+															<?=$arProp["DISPLAY_VALUE"];?>
+														<?endif;?>
+													</div>
+												</div>
+											<?endif;?>
+											<?$j++;?>
+										<?endforeach;?>
+									</div>
+									<div class="properties__container properties js-offers-props"></div>
+								</div>
+								<?if($bShowMoreLink):?>
+									<div class="more-char-link"><span class="choise colored_theme_text_with_hover font_sxs dotted" data-block=".js-scrolled"><?=Loc::getMessage('ALL_CHARS');?></span></div>
+								<?endif;?>
+							</div>
+						<?endif;?>
 					</div>
 
 					<?if($arParams['VISIBLE_PROP_COUNT'] > 0):?>
-						<div class="product-chars flex-50">
-							<?//props?>
-							<?$bShowMoreLink = ($iCountProps > $arParams['VISIBLE_PROP_COUNT']);?>
-							<?if($arResult['DISPLAY_PROPERTIES'] || $arResult['DISPLAY_PROPERTIES_OFFERS']):?>
-								<div class="char-side">
-									<div class="char-side__title font_sm darken"><?=($arParams["T_CHARACTERISTICS"] ? $arParams["T_CHARACTERISTICS"] : Loc::getMessage("T_CHARACTERISTICS"));?></div>
-									<div class="properties list">
-										<div class="properties__container properties">
-											<?$j=0;?>
-											<?foreach($arResult['DISPLAY_PROPERTIES'] as $arProp):?>
-												<?if($j<$arParams['VISIBLE_PROP_COUNT']):?>
-													<div class="properties__item properties__item--compact font_xs">
-														<div class="properties__title muted properties__item--inline">
-															<?=$arProp['NAME']?>
-															<?if($arProp["HINT"] && $arParams["SHOW_HINTS"]=="Y"):?>
-																<div class="hint">
-																	<span class="icon colored_theme_hover_bg"><i>?</i></span>
-																	<div class="tooltip"><?=$arProp["HINT"]?></div>
-																</div>
-															<?endif;?>
-														</div>
-														<div class="properties__hr muted properties__item--inline">&mdash;</div>
-														<div class="properties__value darken properties__item--inline">
-															<?if(count($arProp["DISPLAY_VALUE"]) > 1):?>
-																<?=implode(', ', $arProp["DISPLAY_VALUE"]);?>
-															<?else:?>
-																<?=$arProp["DISPLAY_VALUE"];?>
-															<?endif;?>
-														</div>
-													</div>
-												<?endif;?>
-												<?$j++;?>
-											<?endforeach;?>
-										</div>
-										<div class="properties__container properties js-offers-props"></div>
-									</div>
-									<?if($bShowMoreLink):?>
-										<div class="more-char-link"><span class="choise colored_theme_text_with_hover font_sxs dotted" data-block=".js-scrolled"><?=Loc::getMessage('ALL_CHARS');?></span></div>
-									<?endif;?>
-								</div>
-							<?endif;?>
-						</div>
+
 					<?endif;?>
 				</div>
 

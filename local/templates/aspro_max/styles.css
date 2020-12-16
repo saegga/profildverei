@@ -64,7 +64,7 @@ ul.list-unstyled li:before{display:none;}
 .muted{color:#999;}
 .muted svg path{fill:#999;}
 .muted888{color:#888;}
-.muted777{color:#777;}
+.muted777__{color:#777;}
 .darken{color:#333;}
 .black{color: #222;}
 .rounded, .rounded.darken-bg-animate:before, .rounded.darken-bg-animate:after{border-radius:100%;}

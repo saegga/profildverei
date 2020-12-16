@@ -1428,7 +1428,7 @@ if(!$arPost['CLASS'])
 
 		UpdateRowsImages = function()
 		{
-		    debugger
+
 			if(typeof offerShowPreviewPictureProps === 'object' && offerShowPreviewPictureProps.length){
 				var currentTree = $('.<?=$arPost["CLASS"]?>.js_offers__<?=$arPost["LINK_ID"]?> .bx_catalog_item_scu').data('selected');
 				var $obTreeRows = $('.<?=$arPost["CLASS"]?>.js_offers__<?=$arPost["LINK_ID"]?> .bx_catalog_item_scu .item_wrapper');
@@ -1507,6 +1507,7 @@ if(!$arPost['CLASS'])
 
 		UpdateRow = function(intNumber, activeID, showID, canBuyID)
 		{
+			
 			var i = 0,
 				showI = 0,
 				value = '',
