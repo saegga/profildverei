@@ -3783,7 +3783,7 @@ $('.set_block').ready(function(){
 		var newPriceMin = minPrice;
 		var newPriceOld = oldPrice;
 		var newEconomy = economy;
-
+		debugger
 		var newBlock = $(".prices_block");
 
 		if(BX.findChild(blockPrice[0], {className: "price_group min"}, true)){
@@ -3801,6 +3801,11 @@ $('.set_block').ready(function(){
 
 					if(typeOper === 'minus'){
 						var oldQuantity = quantity + 1;
+						// 1 === 1
+						if(oldQuantity){
+
+						}
+
 						newPriceOld = (quantity * oldPrice) - (priceDiscountVal - (oldPrice * oldQuantity));
 					}else{
 						var oldQuantity = quantity - 1;
@@ -3822,7 +3827,7 @@ $('.set_block').ready(function(){
 					var price = Number(priceMinValues[j].getAttribute("data-value"));
 
 					if(typeOper === 'minus' ){
-						var oldQuantity = quantity + 1;
+						var oldQuantity = quantity != 1 ? quantity + 1 : quantity;
 						newPriceMin = (quantity * minPrice) - (price - (minPrice * oldQuantity));
 					}else{
 						oldQuantity = quantity - 1;
@@ -3841,7 +3846,7 @@ $('.set_block').ready(function(){
 			}
 
 			if(economy > 0){
-				debugger
+
 				if(BX.findChild(blockPriceMin, {className: "sale_block"}, true)){
 
 					var saleBlock = BX.findChild(priceMin, {className: "sale_block"}, true);
@@ -3850,7 +3855,7 @@ $('.set_block').ready(function(){
 					var saleValNumber = Number(saleVal.innerText.replace(/\s+/g, ""));
 
 					if(typeOper === 'minus'){
-						var oldQuantity = quantity + 1;
+						var oldQuantity =  quantity != 1 ? quantity + 1 : quantity;
 						newEconomy = saleValNumber - economy;
 					}else{
 						oldQuantity = quantity - 1;
@@ -3893,7 +3898,7 @@ $('.set_block').ready(function(){
 					var price = Number(priceMinValues[j].getAttribute("data-value"));
 
 					if(typeOper === 'minus'){
-						var oldQuantity = quantity + 1;
+						var oldQuantity = quantity != 1 ? quantity + 1 : quantity;
 						newPriceMin = (quantity * minPrice) - (price - (minPrice * oldQuantity));
 					}else{
 						oldQuantity = quantity - 1;
@@ -3966,73 +3971,6 @@ $('.set_block').ready(function(){
 		// }
 	}
 
-	window.JCCatalogElement.prototype.changePriceCustom = function(priceMin, $quantity){
-		
-		var quantity = this.offers[this.offerNum].offer_set_quantity;
-
-		// for(var i = 0; i < this.offers[this.offerNum].PRICES.length; i++){
-
-		// 	if(this.offers[this.offerNum].PRICES[i].MIN === "Y"){
-		// 		prices = this.offers[this.offerNum].PRICES[i];
-		// 		var discount = prices.DISCOUNT_VALUE * $quantity;
-		// 		var value = prices.VALUE * $quantity
-		// 		var economy = price.DISCOUNT_DIFF * $quantity;
-		// 	}
-
-		// }
-
-		// if(BX.findChild(blockPrice, {className: "price_group min"}, true)){
-		// 	// set min price
-		// 	var priceMin = BX.findChild(blockPrice, {className: "price_group min"}, true)
-		// 	var priceMinValues = BX.findChild(priceMin, {className: "price"}, true, true)
-	
-		// 	for(var i = 0; i < priceMinValues.length; i++){
-
-		// 		if(priceMinValues[i].classList.contains("discount")){
-		// 			// discount
-					
-		// 			if(discountPrice){
-		// 				priceMinValues[i].setAttribute("data-value", discountPrice);
-		// 				var priceDiscountVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
-		// 				priceDiscountVal.innerHTML = BX.Currency.currencyFormat(discountPrice, this.currency, false);
-		// 			}
-		// 		}else{
-					
-		// 			// min price val
-		// 			priceMinValues[i].setAttribute("data-value", priceMin);
-		// 			var priceVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
-		// 			priceVal.innerHTML = BX.Currency.currencyFormat(price, this.currency, false);
-		// 		}
-				
-		// 	}
-		// 	if(economyPrice){
-		// 		if(BX.findChild(priceMin, {className: "sale_block"}, true)){
-		// 			var saleBlock = BX.findChild(priceMin, {className: "sale_block"}, true);
-		// 			var saleVal = BX.findChild(saleBlock, {className: "price_value"}, true);
-		// 			saleVal.innerHTML = BX.Currency.currencyFormat(economyPrice, this.currency, false);
-		// 		}
-		// 	}
-		// }else{
-
-		// }
-
-		
-
-		// debugger
-		// var tr = BX.findChild(document.getElementsByClassName('bx-added-item-table')[0], {tagName: "TR"});
-
-		// if(tr){
-		// 	var priceNabor = 0;
-		// 	for(k in tr){
-		// 		if(tr.classList.contains('choice')){
-		// 			priceNabor += tr.getAttribute("data-price");
-		// 		}
-		// 		console.log(tr);
-		// 	}
-		// 	value += priceNabor;
-		// }
-
-	}
 	window.JCCatalogElement.prototype.setPrice = function(obPrices, measure)
 	{
 		
@@ -4154,7 +4092,7 @@ $('.set_block').ready(function(){
 				BX.onCustomEvent('onAsproSkuSetPrice', [eventdata])
 			}
 		}
-		this.changePriceCustom(obPrices, measure)
+		
 	};
 
 	window.JCCatalogElement.prototype.Compare = function()

@@ -40,11 +40,29 @@ foreach (array("DEFAULT", "OTHER") as $type)
 {
 	foreach ($arResult["SET_ITEMS"][$type] as $key=>$arItem)
 	{
+		$custom = false;
+
+		if($arItem['IBLOCK_SECTION_ID'] == '2765'){ // наличники
+			$name  = "Наличники на две стороны, 5 шт";
+			$customPicture['src'] = $this->GetFolder() . "/images/nalichniki.png";
+			$custom = true;
+		}
+		if($arItem['IBLOCK_SECTION_ID'] == '2764'){ // коробка
+			$name = "Коробка без порога, 1 шт";
+			$customPicture['src'] = $this->GetFolder() . "/images/korobka.png";
+			$custom = true;
+		}
+		if($arItem['IBLOCK_SECTION_ID'] == '2763'){ // доборы
+			$name = "Добор 85 мм, 2.5 шт";
+			$customPicture['src'] = $this->GetFolder() . "/images/dobor.png";
+			$custom = true;
+		}
+
 		$arElement = array(
 			"ID"=>$arItem["ID"],
-			"NAME" =>$arItem["NAME"],
+			"NAME" => $custom ? $name : $arItem["NAME"],
 			"DETAIL_PAGE_URL"=>$arItem["DETAIL_PAGE_URL"],
-			"DETAIL_PICTURE"=>$arItem["DETAIL_PICTURE"],
+			"DETAIL_PICTURE"=> $custom ? $detailPicture : $arItem["DETAIL_PICTURE"],
 			"PREVIEW_PICTURE"=> $arItem["PREVIEW_PICTURE"],
 			"PRICE_CURRENCY" => $arItem["PRICE_CURRENCY"],
 			"PRICE_DISCOUNT_VALUE" => $arItem["PRICE_DISCOUNT_VALUE"],
@@ -76,6 +94,11 @@ foreach (array("DEFAULT", "OTHER") as $type)
 				BX_RESIZE_IMAGE_PROPORTIONAL,
 				true
 			);
+			$arElement['DETAIL_PICTURE'] = $arFileTmp;
+		}
+
+		if($custom){
+			$arFileTmp ['src'] = $customPicture['src'];
 			$arElement['DETAIL_PICTURE'] = $arFileTmp;
 		}
 

@@ -4514,7 +4514,12 @@ if(!funcDefined('setPriceItem')){
 			}
 		}
 	}
-	
+}
+/* добавить метод для обычного товара пересчет цен*/
+if(!funcDefined('changePriceCustom')){
+	var changePriceCustom = function changePriceCustom(blockPrice, typeOper){
+		
+	}
 }
 
 if(!funcDefined('getCurrentPrice')){
