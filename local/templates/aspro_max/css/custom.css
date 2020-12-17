@@ -268,8 +268,11 @@ body .element_6 .compact-view.list-type-block.item-views.list .item .previewtext
 .element_6_listdropdown .ik_select_list .ik_select_list_inner ul li:last-child{
     border-bottom: 1px solid #DDDFDB;
 }
-.element_6_listdropdown .ik_select_list .ik_select_option .ik_select_option_label{
+.element_6_listdropdown .ik_select_list .ik_select_option.img .ik_select_option_label{
     padding-left: 40px;
+}
+.element_6_listdropdown .ik_select_list .ik_select_option .ik_select_option_label{
+    padding-left: 5px;
     font-size: 10px;
     color: #2E322C;
 }

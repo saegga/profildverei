@@ -1,7 +1,7 @@
 <?
 global $arTheme, $arRegion;
 $catalog_id = \Bitrix\Main\Config\Option::get("aspro.max", "CATALOG_IBLOCK_ID", CMaxCache::$arIBlocks[SITE_ID]['aspro_max_catalog']['aspro_max_catalog'][0]);
-$arSectionsFilter = array('IBLOCK_ID' => $catalog_id, 'ACTIVE' => 'Y', 'GLOBAL_ACTIVE' => 'Y', 'ACTIVE_DATE' => 'Y', '<DEPTH_LEVEL' => $arParams['MAX_LEVEL']);
+$arSectionsFilter = array("!ID" => ["2762", "2765", "2764", "2763"], 'IBLOCK_ID' => $catalog_id, 'ACTIVE' => 'Y', 'GLOBAL_ACTIVE' => 'Y', 'ACTIVE_DATE' => 'Y', '<DEPTH_LEVEL' => $arParams['MAX_LEVEL']);
 $arSections = CMaxCache::CIBlockSection_GetList(array('SORT' => 'ASC', 'ID' => 'ASC', 'CACHE' => array('TAG' => CMaxCache::GetIBlockCacheTag($catalog_id), 'GROUP' => array('ID'))), CMax::makeSectionFilterInRegion($arSectionsFilter), false, array("ID", "SORT", "IBLOCK_ID", "NAME", "PICTURE", "LEFT_MARGIN", "RIGHT_MARGIN", "DEPTH_LEVEL", "SECTION_PAGE_URL", "IBLOCK_SECTION_ID", "UF_CATALOG_ICON", 'UF_MENU_BANNER', 'UF_MENU_BRANDS'));
 if($arSections){
 	$MENU_TYPE = $arTheme['MEGA_MENU_TYPE']['VALUE'];

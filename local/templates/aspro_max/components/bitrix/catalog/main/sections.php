@@ -3,7 +3,7 @@
 <?global $arTheme, $APPLICATION, $arSectionFilter;?>
 <?$APPLICATION->AddViewContent('right_block_class', 'catalog_page ');?>
 
-<?$arSectionFilter = array('IBLOCK_ID' => $arParams['IBLOCK_ID']);
+<?$arSectionFilter = array('IBLOCK_ID' => $arParams['IBLOCK_ID'], "!ID" => ["2762", "2765", "2764", "2763"]);
 CMax::makeSectionFilterInRegion($arSectionFilter);?>
 
 <?// region filter for to count elements

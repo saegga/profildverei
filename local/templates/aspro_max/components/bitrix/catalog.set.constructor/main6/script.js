@@ -56,7 +56,7 @@ BX.Catalog.SetConstructor = (function()
 			BX.hide(buyButton);
 		}
 
-		this.recountPrice();
+		// this.recountPrice();
 		this.generateSliderStyles();
 
 		window['nabor_ids'] = [];
@@ -261,7 +261,7 @@ BX.Catalog.SetConstructor = (function()
 		for(var i = 0; i < prices.length; i++){
 			// console.log(prices[i].getAttribute("data-value"))
 		}
-		
+		debugger
 		// если неск. тип цен
 		if(BX.findChild(blockPrice, {className: "price_group min"}, true)){
 			// set min price
@@ -322,14 +322,33 @@ BX.Catalog.SetConstructor = (function()
 
 	SetConstructor.prototype.recountPrice = function()
 	{
-		
-		var sumPrice = this.mainElementPrice*this.mainElementBasketQuantity,
-			sumOldPrice = this.mainElementOldPrice*this.mainElementBasketQuantity,
-			sumDiffDiscountPrice = this.mainElementDiffPrice*this.mainElementBasketQuantity,
-			setItems = BX.findChildren(this.setItemsCont, {tagName: "tr", class: "choice"}, true),
-			i,
-			l,
-			ratio;
+		// debugger
+		var actualQuantity = null;
+		if(document.getElementsByClassName("counter_block_inner").length > 0){
+			var counter = document.getElementsByClassName("counter_block_inner")[0];
+			var inp = BX.findChild(counter, {tag: "input"}, true);
+			actualQuantity = inp.getAttribute('value');
+		}
+
+		if(actualQuantity){
+			var sumPrice = this.mainElementPrice*actualQuantity,
+				sumOldPrice = this.mainElementOldPrice*actualQuantity,
+				sumDiffDiscountPrice = this.mainElementDiffPrice*actualQuantity,
+				setItems = BX.findChildren(this.setItemsCont, {tagName: "tr", class: "choice"}, true),
+				i,
+				l,
+				ratio;
+		}else{
+			var sumPrice = this.mainElementPrice*this.mainElementBasketQuantity,
+				sumOldPrice = this.mainElementOldPrice*this.mainElementBasketQuantity,
+				sumDiffDiscountPrice = this.mainElementDiffPrice*this.mainElementBasketQuantity,
+				setItems = BX.findChildren(this.setItemsCont, {tagName: "tr", class: "choice"}, true),
+				i,
+				l,
+				ratio;
+		}
+
+
 		if (setItems)
 		{
 			for(i = 0, l = setItems.length; i<l; i++)

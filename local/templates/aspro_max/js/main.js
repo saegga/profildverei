@@ -4516,11 +4516,11 @@ if(!funcDefined('setPriceItem')){
 	}
 }
 /* добавить метод для обычного товара пересчет цен*/
-if(!funcDefined('changePriceCustom')){
-	var changePriceCustom = function changePriceCustom(blockPrice, typeOper){
+// if(!funcDefined('changePriceCustom')){
+// 	var changePriceCustom = function changePriceCustom(blockPrice, typeOper){
 		
-	}
-}
+// 	}
+// }
 
 if(!funcDefined('getCurrentPrice')){
 	var getCurrentPrice = function getCurrentPrice(price, currency, print_price){
@@ -9539,79 +9539,79 @@ function fileInputInit(message){
 /*BX.addCustomEvent('onAsproSkuSetPriceMatrix', function(eventdata){
 	console.log(eventdata);
 })*/
-$(document).ready(function(){
-	// recalcPrice();
-});
-var recalcMinPrice = function(price, discountPrice, economyPrice){
+// $(document).ready(function(){
+// 	// recalcPrice();
+// });
+// var recalcMinPrice = function(price, discountPrice, economyPrice){
 
-	economyPrice = economyPrice || null;
-	discountPrice = discountPrice || null;
+// 	economyPrice = economyPrice || null;
+// 	discountPrice = discountPrice || null;
 
-	var blockPrice = document.getElementsByClassName("product-action")[0];
+// 	var blockPrice = document.getElementsByClassName("product-action")[0];
 	
-	var prices = BX.findChild(blockPrice, {className: "price"}, true, true)
-	for(var i = 0; i < prices.length; i++){
-		// console.log(prices[i].getAttribute("data-value"))
-	}
+// 	var prices = BX.findChild(blockPrice, {className: "price"}, true, true)
+// 	for(var i = 0; i < prices.length; i++){
+// 		// console.log(prices[i].getAttribute("data-value"))
+// 	}
 	
-	// если неск. тип цен
-	if(BX.findChild(blockPrice, {className: "price_group min"}, true)){
-		// set min price
-		var priceMin = BX.findChild(blockPrice, {className: "price_group min"}, true)
-		var priceMinValues = BX.findChild(priceMin, {className: "price"}, true, true)
+// 	// если неск. тип цен
+// 	if(BX.findChild(blockPrice, {className: "price_group min"}, true)){
+// 		// set min price
+// 		var priceMin = BX.findChild(blockPrice, {className: "price_group min"}, true)
+// 		var priceMinValues = BX.findChild(priceMin, {className: "price"}, true, true)
 
-		for(var i = 0; i < priceMinValues.length; i++){
-			console.log(priceMinValues[i])
-			if(priceMinValues[i].classList.contains("discount")){
-				// discount
+// 		for(var i = 0; i < priceMinValues.length; i++){
+// 			console.log(priceMinValues[i])
+// 			if(priceMinValues[i].classList.contains("discount")){
+// 				// discount
 				
-				if(discountPrice){
-					priceMinValues[i].setAttribute("data-value", discountPrice);
-					var priceDiscountVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
-					priceDiscountVal.innerHTML = discountPrice;
-				}
-			}else{
+// 				if(discountPrice){
+// 					priceMinValues[i].setAttribute("data-value", discountPrice);
+// 					var priceDiscountVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
+// 					priceDiscountVal.innerHTML = discountPrice;
+// 				}
+// 			}else{
 				
-				// min price val
-				priceMinValues[i].setAttribute("data-value", price);
-				var priceVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
-				priceVal.innerHTML = price;
-			}
+// 				// min price val
+// 				priceMinValues[i].setAttribute("data-value", price);
+// 				var priceVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
+// 				priceVal.innerHTML = price;
+// 			}
 			
-		}
-		if(economyPrice){
-			if(BX.findChild(priceMin, {className: "sale_block"}, true)){
-				var saleBlock = BX.findChild(priceMin, {className: "sale_block"}, true);
-				var saleVal = BX.findChild(saleBlock, {className: "price_value"}, true);
-				saleVal.innerHTML = economyPrice;
-			}
-		}
-	}else{
-		var priceMinValues = BX.findChild(blockPrice, {className: "price"}, true, true)
+// 		}
+// 		if(economyPrice){
+// 			if(BX.findChild(priceMin, {className: "sale_block"}, true)){
+// 				var saleBlock = BX.findChild(priceMin, {className: "sale_block"}, true);
+// 				var saleVal = BX.findChild(saleBlock, {className: "price_value"}, true);
+// 				saleVal.innerHTML = economyPrice;
+// 			}
+// 		}
+// 	}else{
+// 		var priceMinValues = BX.findChild(blockPrice, {className: "price"}, true, true)
 		
-		for(var i = 0; i < priceMinValues.length; i++){
-			if(priceMinValues[i].classList.contains("discount")){
-				if(discountPrice){
-					priceMinValues[i].setAttribute("data-value", discountPrice);
-					var priceDiscountVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
-					priceDiscountVal.innerHTML = discountPrice;
-				}
-			}else{
-				priceMinValues[i].setAttribute("data-value", price);
-				var priceVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
-				priceVal.innerHTML = price;
-			}
-		}
-		if(economyPrice){
-			if(BX.findChild(blockPrice, {className: "sale_block"}, true)){
-				var saleBlock = BX.findChild(blockPrice, {className: "sale_block"}, true);
-				var saleVal = BX.findChild(saleBlock, {className: "price_value"}, true);
-				saleVal.innerHTML = economyPrice;
-			}
-		}
-	}
+// 		for(var i = 0; i < priceMinValues.length; i++){
+// 			if(priceMinValues[i].classList.contains("discount")){
+// 				if(discountPrice){
+// 					priceMinValues[i].setAttribute("data-value", discountPrice);
+// 					var priceDiscountVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
+// 					priceDiscountVal.innerHTML = discountPrice;
+// 				}
+// 			}else{
+// 				priceMinValues[i].setAttribute("data-value", price);
+// 				var priceVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
+// 				priceVal.innerHTML = price;
+// 			}
+// 		}
+// 		if(economyPrice){
+// 			if(BX.findChild(blockPrice, {className: "sale_block"}, true)){
+// 				var saleBlock = BX.findChild(blockPrice, {className: "sale_block"}, true);
+// 				var saleVal = BX.findChild(saleBlock, {className: "price_value"}, true);
+// 				saleVal.innerHTML = economyPrice;
+// 			}
+// 		}
+// 	}
 
-};
+// };
 
 function declOfNum(number, titles)
 {

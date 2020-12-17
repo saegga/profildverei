@@ -3827,7 +3827,7 @@ $('.set_block').ready(function(){
 					var price = Number(priceMinValues[j].getAttribute("data-value"));
 
 					if(typeOper === 'minus' ){
-						var oldQuantity = quantity != 1 ? quantity + 1 : quantity;
+						var oldQuantity = quantity + 1;
 						newPriceMin = (quantity * minPrice) - (price - (minPrice * oldQuantity));
 					}else{
 						oldQuantity = quantity - 1;
@@ -3855,7 +3855,7 @@ $('.set_block').ready(function(){
 					var saleValNumber = Number(saleVal.innerText.replace(/\s+/g, ""));
 
 					if(typeOper === 'minus'){
-						var oldQuantity =  quantity != 1 ? quantity + 1 : quantity;
+						var oldQuantity = quantity + 1;
 						newEconomy = saleValNumber - economy;
 					}else{
 						oldQuantity = quantity - 1;
@@ -3898,7 +3898,7 @@ $('.set_block').ready(function(){
 					var price = Number(priceMinValues[j].getAttribute("data-value"));
 
 					if(typeOper === 'minus'){
-						var oldQuantity = quantity != 1 ? quantity + 1 : quantity;
+						var oldQuantity = quantity + 1;
 						newPriceMin = (quantity * minPrice) - (price - (minPrice * oldQuantity));
 					}else{
 						oldQuantity = quantity - 1;
