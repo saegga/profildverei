@@ -170,6 +170,11 @@ BX.Catalog.SetConstructor = (function()
 				}
 				this.ChangeNaborBasketBtn("del", itemId);
 				/*recalc*/
+				setTimeout(function(){
+					window.ProductPrice.changePrices();
+					window.ProductPrice.setPricesCustom();
+				}, 500);
+				
 				return;
 			}
 			if(!!target && target.hasAttribute('data-role') && target.getAttribute('data-role') == 'set-add-btn'){
@@ -215,6 +220,10 @@ BX.Catalog.SetConstructor = (function()
 			}
 			this.ChangeNaborBasketBtn("add", itemId);
 			/*recalc*/
+			setTimeout(function(){
+				window.ProductPrice.changePrices();
+				window.ProductPrice.setPricesCustom();
+			}, 500);
 			return;
 	}
 	// add to btn basket
@@ -261,7 +270,7 @@ BX.Catalog.SetConstructor = (function()
 		for(var i = 0; i < prices.length; i++){
 			// console.log(prices[i].getAttribute("data-value"))
 		}
-		debugger
+		// debugger
 		// если неск. тип цен
 		if(BX.findChild(blockPrice, {className: "price_group min"}, true)){
 			// set min price
@@ -376,9 +385,9 @@ BX.Catalog.SetConstructor = (function()
 			this.setOldPriceCont.innerHTML = '';
 			this.setDiffPriceCont.innerHTML = '';
 		}
-		setTimeout(() => {
-			this.changeMinPrice(sumPrice, sumOldPrice, sumDiffDiscountPrice);
-		}, 50);
+		// setTimeout(() => {
+		// 	this.changeMinPrice(sumPrice, sumOldPrice, sumDiffDiscountPrice);
+		// }, 50);
 		// 
 		// document.getElementsByClassName("test_price")[0].innerText = sumPrice;
 	};

@@ -5865,7 +5865,7 @@ $(document).ready(function(){
 		}
 
 		var prod = $(input).data("product");
-		window[prod].changePriceCustom2(block, "plus");
+		// window[prod].changePriceCustom2(block, "plus");
 
 	});
 	$(document).on("click", ".counter_block:not(.basket) .minus", function(){
@@ -5915,7 +5915,7 @@ $(document).ready(function(){
 			}
 		}
 		var prod = $(input).data("product");
-		window[prod].changePriceCustom2(block, "minus");
+		// window[prod].changePriceCustom2(block, "minus");
 	});
 
 	$('.counter_block input[type=text]').numeric({allow:"."});
@@ -9532,86 +9532,14 @@ function fileInputInit(message){
 
 /*custom event for sku prices*/
 
-/*BX.addCustomEvent('onAsproSkuSetPrice', function(eventdata){
-	console.log(eventdata);
-})*/
+// BX.addCustomEvent('onAsproSkuSetPrice', function(eventdata){
+// 	console.log(eventdata);
+// })
 
-/*BX.addCustomEvent('onAsproSkuSetPriceMatrix', function(eventdata){
-	console.log(eventdata);
-})*/
-// $(document).ready(function(){
-// 	// recalcPrice();
-// });
-// var recalcMinPrice = function(price, discountPrice, economyPrice){
+// BX.addCustomEvent('onAsproSkuSetPriceMatrix', function(eventdata){
+// 	console.log(eventdata);
+// })
 
-// 	economyPrice = economyPrice || null;
-// 	discountPrice = discountPrice || null;
-
-// 	var blockPrice = document.getElementsByClassName("product-action")[0];
-	
-// 	var prices = BX.findChild(blockPrice, {className: "price"}, true, true)
-// 	for(var i = 0; i < prices.length; i++){
-// 		// console.log(prices[i].getAttribute("data-value"))
-// 	}
-	
-// 	// если неск. тип цен
-// 	if(BX.findChild(blockPrice, {className: "price_group min"}, true)){
-// 		// set min price
-// 		var priceMin = BX.findChild(blockPrice, {className: "price_group min"}, true)
-// 		var priceMinValues = BX.findChild(priceMin, {className: "price"}, true, true)
-
-// 		for(var i = 0; i < priceMinValues.length; i++){
-// 			console.log(priceMinValues[i])
-// 			if(priceMinValues[i].classList.contains("discount")){
-// 				// discount
-				
-// 				if(discountPrice){
-// 					priceMinValues[i].setAttribute("data-value", discountPrice);
-// 					var priceDiscountVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
-// 					priceDiscountVal.innerHTML = discountPrice;
-// 				}
-// 			}else{
-				
-// 				// min price val
-// 				priceMinValues[i].setAttribute("data-value", price);
-// 				var priceVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
-// 				priceVal.innerHTML = price;
-// 			}
-			
-// 		}
-// 		if(economyPrice){
-// 			if(BX.findChild(priceMin, {className: "sale_block"}, true)){
-// 				var saleBlock = BX.findChild(priceMin, {className: "sale_block"}, true);
-// 				var saleVal = BX.findChild(saleBlock, {className: "price_value"}, true);
-// 				saleVal.innerHTML = economyPrice;
-// 			}
-// 		}
-// 	}else{
-// 		var priceMinValues = BX.findChild(blockPrice, {className: "price"}, true, true)
-		
-// 		for(var i = 0; i < priceMinValues.length; i++){
-// 			if(priceMinValues[i].classList.contains("discount")){
-// 				if(discountPrice){
-// 					priceMinValues[i].setAttribute("data-value", discountPrice);
-// 					var priceDiscountVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
-// 					priceDiscountVal.innerHTML = discountPrice;
-// 				}
-// 			}else{
-// 				priceMinValues[i].setAttribute("data-value", price);
-// 				var priceVal = BX.findChild(priceMinValues[i], {className: "price_value"}, true);
-// 				priceVal.innerHTML = price;
-// 			}
-// 		}
-// 		if(economyPrice){
-// 			if(BX.findChild(blockPrice, {className: "sale_block"}, true)){
-// 				var saleBlock = BX.findChild(blockPrice, {className: "sale_block"}, true);
-// 				var saleVal = BX.findChild(saleBlock, {className: "price_value"}, true);
-// 				saleVal.innerHTML = economyPrice;
-// 			}
-// 		}
-// 	}
-
-// };
 
 function declOfNum(number, titles)
 {
