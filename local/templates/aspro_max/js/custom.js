@@ -71,6 +71,7 @@ BX.ready(function(){
         }
 
         function getEconomy(){
+            var economy = 0;
                 if(BX.findChild(this.blockPrice, {className: "price_group min"}, true)){
                     var priceMin = BX.findChild(this.blockPrice, {className: "price_group min"}, true)
         
@@ -83,10 +84,11 @@ BX.ready(function(){
                     if(BX.findChild(this.blockPrice, {className: "sale_block"}, true)){
                         var saleBlock = BX.findChild(this.blockPrice, {className: "sale_block"}, true);
                         var saleVal = BX.findChild(saleBlock, {className: "values_wrapper"}, true);
+                        economy = saleVal;
                     }
                 }
 
-            return saleVal.innerText;
+            return economy;
         }
 
         ProductPrice.prototype.changePrices = function(quantity){
@@ -110,64 +112,77 @@ BX.ready(function(){
             }
     
         }
-
-        ProductPrice.prototype.setPricesCustom = function(){
-            // debugger
-            if(BX.findChild(this.blockPrice, {className: "price_group min"}, true)){
-                
-                var priceMin = BX.findChild(this.blockPrice, {className: "price_group min"}, true);
+        function changeDomPrices(context){
+            if(BX.findChild(context.blockPrice, {className: "price_group min"}, true)){
+                    
+                var priceMin = BX.findChild(context.blockPrice, {className: "price_group min"}, true);
                 var priceMinValues = BX.findChild(priceMin, {className: "price"}, true, true);
 
                 for(var j = 0; j < priceMinValues.length; j++){
                     if(priceMinValues[j].classList.contains("discount")){
                         
                         var blockPriceValue = BX.findChild(priceMinValues[j], {className: "price_value"}, true);
-                        priceMinValues[j].setAttribute("data-value", this.currentOldPrice);
-                        blockPriceValue.innerHTML = BX.Currency.currencyFormat( this.currentOldPrice, "RUB", false);
+                        priceMinValues[j].setAttribute("data-value", context.currentOldPrice);
+                        blockPriceValue.innerHTML = BX.Currency.currencyFormat( context.currentOldPrice, "RUB", false);
 
                     }else{
                         var priceVal = BX.findChild(priceMinValues[j], {className: "price_value"}, true);
-                        priceVal.innerHTML = BX.Currency.currencyFormat(this.currentMinPrice, "RUB", false);
-                        priceMinValues[j].setAttribute("data-value", this.currentMinPrice);
+                        priceVal.innerHTML = BX.Currency.currencyFormat(context.currentMinPrice, "RUB", false);
+                        priceMinValues[j].setAttribute("data-value", context.currentMinPrice);
                     }
                 }
 
-                if(BX.findChild(this.blockPrice, {className: "sale_block"}, true)){
+                if(BX.findChild(context.blockPrice, {className: "sale_block"}, true)){
 
-					var saleBlock = BX.findChild(priceMin, {className: "sale_block"}, true);
-					var saleVal = BX.findChild(saleBlock, {className: "price_value"}, true);
-					
-					var saleValNumber = Number(saleVal.innerText.replace(/\s+/g, ""));
-					
-					saleVal.innerHTML = BX.Currency.currencyFormat(this.currentEconomy, "RUB", false);
-				}
+                    var saleBlock = BX.findChild(priceMin, {className: "sale_block"}, true);
+                    var saleVal = BX.findChild(saleBlock, {className: "price_value"}, true);
+                    
+                    var saleValNumber = Number(saleVal.innerText.replace(/\s+/g, ""));
+                    
+                    saleVal.innerHTML = BX.Currency.currencyFormat(context.currentEconomy, "RUB", false);
+                }
             }else{
-                var priceMinValues = BX.findChild(blockPrice, {className: "price"}, true, true);
+                var priceMinValues = BX.findChild(context.blockPrice, {className: "price"}, true, true);
                 
                 for(var j = 0; j < priceMinValues.length; j++){
                     if(priceMinValues[j].classList.contains("discount")){
 
                         var blockPriceValue = BX.findChild(priceMinValues[j], {className: "price_value"}, true);
-                        priceMinValues[j].setAttribute("data-value", this.currentOldPrice);
-                        blockPriceValue.innerHTML = BX.Currency.currencyFormat( this.currentOldPrice, "RUB", false);
+                        priceMinValues[j].setAttribute("data-value", context.currentOldPrice);
+                        blockPriceValue.innerHTML = BX.Currency.currencyFormat( context.currentOldPrice, "RUB", false);
                         
                     }else{
                         var priceVal = BX.findChild(priceMinValues[j], {className: "price_value"}, true);
-                        priceVal.innerHTML = BX.Currency.currencyFormat(this.currentMinPrice, "RUB", false);
-                        priceMinValues[j].setAttribute("data-value", this.currentMinPrice);
+                        priceVal.innerHTML = BX.Currency.currencyFormat(context.currentMinPrice, "RUB", false);
+                        priceMinValues[j].setAttribute("data-value", context.currentMinPrice);
                     }
                 }
 
-                if(BX.findChild(this.blockPrice, {className: "sale_block"}, true)){
-	
-					var saleBlock = BX.findChild(priceMin, {className: "sale_block"}, true);
-					var saleVal = BX.findChild(saleBlock, {className: "price_value"}, true);
-	
-					saleValNumber = Number(saleVal.innerText.replace(/\s+/g, ""));
-					
-					saleVal.innerHTML = BX.Currency.currencyFormat(this.currentEconomy, "RUB", false);
-				}
+                if(BX.findChild(context.blockPrice, {className: "sale_block"}, true)){
+    
+                    var saleBlock = BX.findChild(priceMin, {className: "sale_block"}, true);
+                    var saleVal = BX.findChild(saleBlock, {className: "price_value"}, true);
+    
+                    saleValNumber = Number(saleVal.innerText.replace(/\s+/g, ""));
+                    
+                    saleVal.innerHTML = BX.Currency.currencyFormat(context.currentEconomy, "RUB", false);
+                }
             }
+        }
+
+        ProductPrice.prototype.setPricesCustom = function(){
+            debugger
+            var that = this;
+            var flagOffer = false;
+            BX.addCustomEvent('onAsproSkuSetPrice', function(eventdata){
+                flagOffer = true;
+                changeDomPrices(that);
+            });
+
+            if(!flagOffer){
+                changeDomPrices(this);
+            }
+
         };
 
         function getSummNabor(){
@@ -189,20 +204,10 @@ BX.ready(function(){
         return ProductPrice;
     }());
 
-    // setTimeout(function(){
-    //     window['ProductPrice'] = new ProductPrice;
-    //     var input = $(".counter_block").find("input[type=text]");
-
-    //     $(input).on('change', function(e){
-    //         debugger
-    //         window.ProductPrice.changePrices(e.target.value);
-    //         window.ProductPrice.setPricesCustom();
-    //     });
-
-    // },250)
-    
+    var flagOffer = false;
 
     BX.addCustomEvent('onAsproSkuSetPrice', function(eventdata){
+        flagOffer = true;
         var input = $(".counter_block").find("input[type=text]");
         window['ProductPrice'] = new ProductPrice;
         $(input).on('change', function(e){
@@ -212,18 +217,20 @@ BX.ready(function(){
            
             BX.removeCustomEvent('onCounterProductAction', function(){console.log("ds")});
         });
-    })
+    });
+    if(!flagOffer){
 
-    
-    BX.addCustomEvent('onAsproSkuSetPriceMatrix', function(eventdata){
-        // var input = $(".counter_block").find("input[type=text]");
-        // window['ProductPrice'] = new ProductPrice;
-        // $(input).on('change', function(e){
-        //     debugger
-        //     window.ProductPrice.changePrices(e.target.value);
-        //     window.ProductPrice.setPricesCustom();
-        // });
-    })
+        var input = $(".counter_block").find("input[type=text]");
+        window['ProductPrice'] = new ProductPrice;
+        $(input).on('change', function(e){
+            // debugger
+            window.ProductPrice.changePrices(e.target.value);
+            window.ProductPrice.setPricesCustom();
+           
+            BX.removeCustomEvent('onCounterProductAction', function(){console.log("ds")});
+        });
+    }
+
     // var summTotal = document.createElement('div');
     // summTotal.className = "c_summ_total";
 
